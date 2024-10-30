@@ -1,0 +1,60 @@
+1. backend apis for expenses (done)
+    a. define schema
+        1. make schema folder (done)
+        2. make expenseSchema.tsx file (done)
+    b. make api routes
+        1. make routes folder (done)
+        2. make expenseRoutes.tsx file (done)
+        2. define below apis (done)
+            a. create (done)
+            b. read (done)
+            c. update (done)
+            d. delete (done)
+    c. make api controllers (done)
+        1. make controllers folder (done)
+        2. make expenseControllers.tsx file in it (done)
+
+2. connect apis in frontend (done)
+    1. check how to use apis in nextjs (done)
+    2. common way to integrate apis for data in nextjs (done)
+    3. integrate it in expense page
+        a. start page -> read all data (done)
+        b. on add new -> create (done)
+        c. edit -> update (done)
+        d. delete -> delete (done)
+
+3. login screen 
+    1. Signup button (below submit button, saying "Not a user? Singup(with underline)") (done)
+        a. new signup page (done)
+            - Name (done)
+            - Email (done)
+            - password (done)
+            - confirm password (done)
+        b. submit (done)
+            - on submit goto login (done)
+    
+4. home page
+    1. Navbar with Logo, profile icon, add expense(goes to expenses page), cash button (done)
+    2. Graphs
+        a. find graphs library (done)
+        b. 1st graph for percentage with labels (done)
+        c. 2nd graph for values with labels (done)
+
+5. Expenses
+    1. Navbar with Logo, profile icon, home, and cash button (done)
+    2. Entry line for adding below the navbar (done)
+    3. New actions column with edit and delete icons. (done)
+    4. total value of Expenses (done)
+    5. label creator page or modal
+    6. Date filter modal and label filter
+
+---------------Backend-------------
+1. expense 
+    a. filter by datewise(monthly) and labelwise, the expenses from backend
+
+2. user
+    a. user login routes, controllers, model
+
+3. label
+    a. labels create, edit, read and delete
+

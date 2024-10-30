@@ -1,0 +1,105 @@
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary-color: #37AFE1;
+  --secondary-color: #F5F4B3;
+  --tertiary-color:beige;
+  --last-color:#37AFE1;
+  --primary-text: black;
+  --secondary-text: white;
+  --tertiary-text: grey;
+}
+
+/* -------------- colors ------------------ */
+
+.primary-color {
+  background: var(--primary-color);
+}
+
+.secondary-color {
+  background: var(--secondary-color);
+}
+
+.tertiary-color {
+  background: var(--tertiary-color)
+}
+
+.last-color {
+  background: var(--last-color)
+}
+
+.primary-text {
+  color: var(--primary-text);
+}
+
+.secondary-text {
+  color: var(--secondary-text);
+}
+
+.tertiary-text {
+  color: var(--tertiary-text);
+}
+
+/* --------------------- sizing ------------------ */
+.general-padding {
+  padding: 1% 3%;
+}
+
+.general-margin {
+  margin: 0 3%;
+}
+
+.general {
+  width: 100%;
+  height: 100vh;
+  padding: 1% 3%;
+}
+
+/* ---------------- buttons -------------- */
+button:hover {
+  cursor:pointer
+}
+
+.general-button {
+  background-color: var(--secondary-color);
+  border-radius: 10px;
+  padding: 5px 15px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: light) {
+  html {
+    color-scheme: light;
+  }
+}
