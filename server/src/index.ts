@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from 'mongoose';
 import cors from 'cors';
-import expenseRoutes from "./routes/expenseRoutes.js"; // Ensure the correct path and .js extension
+import expenseRoutes from "./routes/expenseRoutes"; // Ensure the correct path and .js extension
 
 // Initialize Express
 const app = express();

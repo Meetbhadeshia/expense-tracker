@@ -41,7 +41,6 @@ export const readAllExpenses = async (req: Request, res: Response): Promise<void
                 },
             };
         }
-
         const expenses = await Expense.find(filter).sort({ date: 1 }); // Sort by date field in ascending order
         res.status(200).json(expenses);
 
