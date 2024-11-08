@@ -19,17 +19,34 @@ export const createExpense = async (req: Request, res: Response): Promise<void> 
 
 export const readAllExpenses = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { date1, date2 } = req.query;
+        const { date1, date2, label } = req.query;
         let filter = {};
-        if (date1 && date2) {
+        if (date1 && date2 && label) {
             // Parse and filter expenses between date1 and date2
             filter = {
                 date: {
                     $gte: new Date(date1 as string), // Automatically interprets 'YYYY-MM-DD' format
                     $lte: new Date(date2 as string),
                 },
+                label: {
+                    $eq: label
+                }
             };
-        } else {
+        } else if (date1 && date2) {
+            filter = {
+                date: {
+                    $gte: new Date(date1 as string), // Automatically interprets 'YYYY-MM-DD' format
+                    $lte: new Date(date2 as string),
+                },
+            };
+        } else if (label) {
+            filter = {
+                label: {
+                    $eq: label
+                }
+            };
+        }
+        else {
             // Default to the current month if date1 and date2 are not provided
             const startOfCurrentMonth = startOfMonth(new Date());
             const endOfCurrentMonth = endOfMonth(new Date());

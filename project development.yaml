@@ -48,13 +48,61 @@
     5. label creator page or modal
     6. Date filter modal and label filter
 
+6. Profile
+    1. Personal details (save changes only on personal details change)
+        - read (name, email, and password) 
+        - edit
+        - delete
+    2. Labels 
+        - create
+        - read
+        - update
+        - delete
+    3. currency change (also in user table)
+    4. log out button (done)
+    5. delete user button (done)
+
+7. Home 
+    1. Connect graphs with original data
+
+8. Cash 
+    1. Make cash page
+
 ---------------Backend-------------
 1. expense 
-    a. filter by datewise(monthly) and labelwise, the expenses from backend
+    a. filter by datewise(monthly) and labelwise, the expenses from backend (done)
 
 2. user
-    a. user login routes, controllers, model
+    a. user login
+        - routes
+            - create
+            - check login
+            - update
+            - delete
+        - controllers
+            - create user function
+            - check user function
+            - update user function
+            - delete user function 
+        - model (done)
+            - name (done)
+            - email (done)
+            - password (done)
+            - createdAt, updatedAt (done)
 
 3. label
     a. labels create, edit, read and delete
+        - routes
+            - create label
+            - read all labels
+            - update label
+            - delete label
+        - controllers
+            - create label function
+            - read labels function
+            - edit label function
+            - delete label function 
+        - model
+            - name
+            - createdAt, updatedAt
 

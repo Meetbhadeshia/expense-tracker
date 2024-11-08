@@ -33,15 +33,33 @@ const createExpense = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.createExpense = createExpense;
 const readAllExpenses = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { date1, date2 } = req.query;
+        const { date1, date2, label } = req.query;
         let filter = {};
-        if (date1 && date2) {
+        if (date1 && date2 && label) {
             // Parse and filter expenses between date1 and date2
             filter = {
                 date: {
                     $gte: new Date(date1), // Automatically interprets 'YYYY-MM-DD' format
                     $lte: new Date(date2),
                 },
+                label: {
+                    $eq: label
+                }
+            };
+        }
+        else if (date1 && date2) {
+            filter = {
+                date: {
+                    $gte: new Date(date1), // Automatically interprets 'YYYY-MM-DD' format
+                    $lte: new Date(date2),
+                },
+            };
+        }
+        else if (label) {
+            filter = {
+                label: {
+                    $eq: label
+                }
             };
         }
         else {

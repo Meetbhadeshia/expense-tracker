@@ -15,6 +15,7 @@ interface Expense {
 
 const Expenses: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false); // For adding new expense modal
+    const [isDateFilterModalOpen, setIsdateFilterModalOpen] = useState(false); // For adding new expense modal
     const [isEditModalOpen, setIsEditModalOpen] = useState(false); // For editing expense modal
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // For delete confirmation modal
 
@@ -31,8 +32,18 @@ const Expenses: React.FC = () => {
     });
     const [total, setTotal] = useState(0)
 
+    const [dates, setDates] = useState({
+        date1: '',
+        date2: ''
+    })
+
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => {
+        setIsdateFilterModalOpen(false);
+        clearVariable();
+    }
+
+    const closeDateFilterModal = () => {
         setIsModalOpen(false);
         clearVariable();
     }
@@ -55,22 +66,23 @@ const Expenses: React.FC = () => {
 
     const getAllExpenses = async () => {
         try {
-            const date1 = ""
-            const date2 = ""
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/expenses?date1=${date1}&date2=${date2}`, {
-
+            console.log("---dates----", dates)
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/expenses?date1=${dates.date1}&date2=${dates.date2}`, {
                 cache: "no-store",
             })
+            // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/expenses?label=Rent`, {
+            //     cache: "no-store",
+            // })
 
             if (!res.ok) {
                 throw new Error('Failed to catch expenses')
             }
             const data: Expense[] = await res.json();
-            console.log('-------data----------', data)
             let totalOfExpense = 0
             for (let i = 0; i < data.length; i++) {
                 totalOfExpense += data[i].price
             }
+            console.log('------data------', data)
             setExpenses(data)
             setTotal(totalOfExpense ? totalOfExpense : 0)
         } catch (error) {
@@ -85,6 +97,10 @@ const Expenses: React.FC = () => {
             label: '',
             description: '',
             price: 0,
+        })
+        setDates({
+            date1: '',
+            date2: ''
         })
     }
 
@@ -190,7 +206,7 @@ const Expenses: React.FC = () => {
 
                         <tr>
                             <th className="primary-text">No</th>
-                            <th className="primary-text">Date</th>
+                            <th className="primary-text" style={{ cursor: "pointer" }} onClick={() => setIsdateFilterModalOpen(true)}>Date</th>
                             <th className="primary-text">Label</th>
                             <th className="primary-text">Description</th>
                             <th className="primary-text">Price</th>
@@ -264,6 +280,19 @@ const Expenses: React.FC = () => {
                     </div>
                 </Modal>
 
+                {/* Date filter Modal */}
+                <Modal isOpen={isDateFilterModalOpen} onClose={() => setIsdateFilterModalOpen(false)}>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "start", gap: "2vh" }}>
+                        <h2>Custom date filter</h2>
+
+                        <p>Starting date: <input type="date" placeholder="Date" onChange={e => setDates({ ...dates, date1: e.target.value })} /> </p>
+
+                        <p>End date: <input type="date" placeholder="Date" onChange={e => setDates({ ...dates, date2: e.target.value })} /></p>
+
+                        <button onClick={() => { getAllExpenses(); setIsdateFilterModalOpen(false) }}>Submit</button>
+                    </div>
+                </Modal>
+
                 {/* Edit Expense Modal */}
                 <Modal isOpen={isEditModalOpen} onClose={closeEditModal}>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "start", gap: "2vh" }}>
@@ -301,7 +330,7 @@ const Expenses: React.FC = () => {
 
 
                 {/* Delete Confirmation Modal */}
-                <Modal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}>
+                <Modal isOpen={isDeleteModalOpen} onClose={(closeDeleteModal)}>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "start", gap: "2vh" }}>
                         <h2 className='primary-text'>Delete Expense</h2>
                         <p className='primary-text'>Are you sure you want to delete this expense: <strong>{selectedExpense?.description}</strong>?</p>

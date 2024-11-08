@@ -8,7 +8,7 @@ const Menu = [
     },
     {
         name: "Profile",
-        link: "/"
+        link: "/profile"
     },
     {
         name: "Add expense",
@@ -35,7 +35,7 @@ const Navbar = () => {
                     {
                         Menu.map((item, index) => {
                             return (
-                                <button className="general-button" onClick={() => moveToPage(item.link)}>{item.name}</button>
+                                <button key={index} className="general-button" onClick={() => moveToPage(item.link)}>{item.name}</button>
                             )
                         })
                     }
