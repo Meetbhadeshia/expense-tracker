@@ -1,3 +1,62 @@
+1. connect apis in frontend (done)
+    1. check how to use apis in nextjs (done)
+    2. common way to integrate apis for data in nextjs (done)
+    3. integrate it in expense page
+        a. start page -> read all data (done)
+        b. on add new -> create (done)
+        c. edit -> update (done)
+        d. delete -> delete (done)
+
+2. login screen 
+    1. Signup button (below submit button, saying "Not a user? Singup(with underline)") (done)
+        a. new signup page (done)
+            - Name (done)
+            - Email (done)
+            - password (done)
+            - confirm password (done)
+        b. submit (done)
+            - on submit goto login (done)
+        c. infuse backend apis with frontend (done)
+            - register user api (done)
+            - login user api (done)
+    
+3. home page
+    1. Navbar with Logo, profile icon, add expense(goes to expenses page), cash button (done)
+    2. Graphs
+        a. find graphs library (done)
+        b. 1st graph for percentage with labels (done)
+        c. 2nd graph for values with labels (done)
+
+4. Expenses
+    1. Navbar with Logo, profile icon, home, and cash button (done)
+    2. Entry line for adding below the navbar (done)
+    3. New actions column with edit and delete icons. (done)
+    4. total value of Expenses (done)
+    5. modal
+        - date filter (done)
+        - label filter 
+
+5. Profile
+    1. Personal details (save changes only on personal details change)
+        - read (name, email, and password) (done) 
+        - edit
+        - delete (done)
+    2. Labels 
+        - create
+        - read
+        - update
+        - delete
+    3. currency change (done)
+    4. log out button (done)
+    5. delete user button (done)
+
+6. Home 
+    1. Connect graphs with original data
+
+7. Cash 
+    1. Make cash page
+
+---------------Backend-------------
 1. backend apis for expenses (done)
     a. define schema
         1. make schema folder (done)
@@ -14,83 +73,28 @@
         1. make controllers folder (done)
         2. make expenseControllers.tsx file in it (done)
 
-2. connect apis in frontend (done)
-    1. check how to use apis in nextjs (done)
-    2. common way to integrate apis for data in nextjs (done)
-    3. integrate it in expense page
-        a. start page -> read all data (done)
-        b. on add new -> create (done)
-        c. edit -> update (done)
-        d. delete -> delete (done)
-
-3. login screen 
-    1. Signup button (below submit button, saying "Not a user? Singup(with underline)") (done)
-        a. new signup page (done)
-            - Name (done)
-            - Email (done)
-            - password (done)
-            - confirm password (done)
-        b. submit (done)
-            - on submit goto login (done)
-    
-4. home page
-    1. Navbar with Logo, profile icon, add expense(goes to expenses page), cash button (done)
-    2. Graphs
-        a. find graphs library (done)
-        b. 1st graph for percentage with labels (done)
-        c. 2nd graph for values with labels (done)
-
-5. Expenses
-    1. Navbar with Logo, profile icon, home, and cash button (done)
-    2. Entry line for adding below the navbar (done)
-    3. New actions column with edit and delete icons. (done)
-    4. total value of Expenses (done)
-    5. label creator page or modal
-    6. Date filter modal and label filter
-
-6. Profile
-    1. Personal details (save changes only on personal details change)
-        - read (name, email, and password) 
-        - edit
-        - delete
-    2. Labels 
-        - create
-        - read
-        - update
-        - delete
-    3. currency change (also in user table)
-    4. log out button (done)
-    5. delete user button (done)
-
-7. Home 
-    1. Connect graphs with original data
-
-8. Cash 
-    1. Make cash page
-
----------------Backend-------------
-1. expense 
+2. expense (done)
     a. filter by datewise(monthly) and labelwise, the expenses from backend (done)
 
-2. user
-    a. user login
-        - routes
-            - create
-            - check login
-            - update
-            - delete
-        - controllers
-            - create user function
-            - check user function
-            - update user function
-            - delete user function 
+3. user (done)
+    a. user login (done)
+        - routes (done)
+            - create (done)
+            - check login (done)
+            - update (done)
+            - delete (done)
+        - controllers (done)
+            - create user function (done)
+            - login user function (done)
+            - update user function (done)
+            - delete user function (done)
         - model (done)
             - name (done)
             - email (done)
             - password (done)
             - createdAt, updatedAt (done)
 
-3. label
+4. label
     a. labels create, edit, read and delete
         - routes
             - create label
@@ -106,3 +110,10 @@
             - name
             - createdAt, updatedAt
 
+future updates
+- currency update
+- monthly and weekly reports
+- forget passsword
+- delete user
+- download table in excel
+- mobile friendly

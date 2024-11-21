@@ -1,8 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'
 
 const Login = () => {
     const router = useRouter()
+
+    const [user, setUser] = useState({
+        email: "",
+        password: ""
+    })
+
+    const loginUser = async () => {
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/users/login`, {
+            method: "POST",  // Specify the HTTP method
+            headers: {
+                "Content-Type": "application/json",  // Specify that we're sending JSON
+            },
+            body: JSON.stringify(user),  // The request body
+            cache: "no-store",
+        })
+
+        if (!res.ok) {
+            // Parse the error response
+            const errorData = await res.json();
+            if (errorData.errors) {
+                console.log('Errors:', errorData.errors);
+                errorData.errors.forEach((error: String) => {
+                    console.error('Error:', error);
+                });
+            } else {
+                console.error('Unexpected error response format', errorData);
+            }
+        } else {
+            const data = await res.json();
+            router.push("/")
+        }
+    }
 
     return (
         <div style={{
@@ -14,8 +47,17 @@ const Login = () => {
             flexDirection: 'column'    // Stacks children vertically
         }}>
             <h1>Login</h1>
-            <input type="text" placeholder="Username" style={{ margin: '8px 0', padding: '8px', width: '200px' }} />
-            <input type="password" placeholder="Password" style={{ margin: '8px 0', padding: '8px', width: '200px' }} />
+
+            <input type="text" placeholder="Username"
+                style={{ margin: '8px 0', padding: '8px', width: '200px' }}
+                onChange={e => setUser({ ...user, email: e.target.value })}
+            />
+
+            <input type="password" placeholder="Password"
+                style={{ margin: '8px 0', padding: '8px', width: '200px' }}
+                onChange={e => setUser({ ...user, password: e.target.value })}
+            />
+
             <button style={{
                 marginTop: '16px',
                 padding: '10px 20px',
@@ -25,11 +67,13 @@ const Login = () => {
                 cursor: 'pointer',
                 fontSize: '16px',
                 borderRadius: '4px'
-            }}>
+            }}
+                onClick={() => loginUser()}>
                 Submit
             </button>
-            <p style={{ marginTop: "1%", fontSize: ".9rem" }}>Not a user? <a onClick={() => router.push("signup")} style={{ textDecoration: "underline", color: "blue" }}>signup</a></p>
-        </div>
+
+            <p style={{ marginTop: "1%", fontSize: ".9rem" }}>Not a user? <a onClick={() => router.push("signup")} style={{ textDecoration: "underline", color: "blue", cursor: "pointer" }}>signup</a></p>
+        </div >
     );
 };
 

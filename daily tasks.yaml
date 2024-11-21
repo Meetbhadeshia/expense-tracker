@@ -1,0 +1,8 @@
+1. Connect graphs with original data in home page
+
+  a. call readAllExpenses api with query starting date and ending date on index page
+
+  b. Create function for calculating total expense in each label
+    1. use hashmap for this problem
+  
+  c. Send the labels and values in diff arrays to graph component

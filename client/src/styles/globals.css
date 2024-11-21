@@ -66,6 +66,43 @@ button:hover {
   padding: 5px 15px;
 }
 
+/* -------------- Table header filter icon --------------- */
+.filter-icon {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: gray;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none; /* Prevents interfering with clicks on the header */
+}
+/* Basic styling for table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+/* Header cell styling */
+.header-cell {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Show filter icon on header cell hover */
+.header-cell:hover .filter-icon {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 /* ------------- css end ----------------- */
 
 @media (prefers-color-scheme: dark) {

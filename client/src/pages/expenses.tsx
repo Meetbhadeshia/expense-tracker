@@ -187,7 +187,7 @@ const Expenses: React.FC = () => {
             <Navbar />
             <div className='general tertiary-color'>
                 <div style={{ display: "flex", justifyContent: "end", gap: "2%" }}>
-                    <input className="tertiary-text" type="date" placeholder="Date" onChange={e => { console.log(e.target.value); setExpense({ ...expense, date: e.target.value }) }} />
+                    <input className="tertiary-text" type="date" placeholder="Date" onChange={e =>  setExpense({ ...expense, date: e.target.value }) } />
 
                     <select className="tertiary-text" onChange={e => setExpense({ ...expense, label: e.target.value })}>
                         <option value="" disabled selected>Select Category</option>
@@ -207,7 +207,7 @@ const Expenses: React.FC = () => {
                         <tr>
                             <th className="primary-text">No</th>
                             <th className="primary-text" style={{ cursor: "pointer" }} onClick={() => setIsdateFilterModalOpen(true)}>Date</th>
-                            <th className="primary-text">Label</th>
+                            <th className="primary-text header-cell">Label <div className="filter-icon" title="Filter">&#x25BC;</div></th>
                             <th className="primary-text">Description</th>
                             <th className="primary-text">Price</th>
                             <th className="primary-text">Actions</th>
