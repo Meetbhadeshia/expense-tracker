@@ -1,0 +1,9 @@
+/* ---------------- expenses page ---------------- */
+.dropdown-item {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .dropdown-item:hover {
+    background-color: var(--primary-color);
+  }

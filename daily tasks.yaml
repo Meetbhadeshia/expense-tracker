@@ -1,8 +1,19 @@
-1. Connect graphs with original data in home page
+label filter modal
+    + on clicking -> a dropdown should open
+    - on selecting any label -> a function should get that labels value from backend
+    - update new array to the main variable
 
-  a. call readAllExpenses api with query starting date and ending date on index page
-
-  b. Create function for calculating total expense in each label
-    1. use hashmap for this problem
-  
-  c. Send the labels and values in diff arrays to graph component
+a. labels create, edit, read and delete
+    - routes
+        - create label
+        - read all labels
+        - update label
+        - delete label
+    - controllers
+        - create label function
+        - read labels function
+        - edit label function
+        - delete label function 
+    - model
+        - name
+        - createdAt, updatedAt

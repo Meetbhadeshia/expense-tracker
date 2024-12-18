@@ -37,14 +37,8 @@ const Expenses: React.FC = () => {
         date2: ''
     })
 
-    const openModal = () => setIsModalOpen(true);
     const closeModal = () => {
         setIsdateFilterModalOpen(false);
-        clearVariable();
-    }
-
-    const closeDateFilterModal = () => {
-        setIsModalOpen(false);
         clearVariable();
     }
 
@@ -83,6 +77,28 @@ const Expenses: React.FC = () => {
                 totalOfExpense += data[i].price
             }
             console.log('------data------', data)
+            setExpenses(data)
+            setTotal(totalOfExpense ? totalOfExpense : 0)
+        } catch (error) {
+            console.log("Error loading expenses", error)
+        }
+    }
+
+    const getSelectedLabelsData = async (selectedLabel: string) => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/expenses?date1=${dates.date1}&date2=${dates.date2}&label=${selectedLabel}`, {
+                cache: "no-store",
+            })
+
+            if (!res.ok) {
+                throw new Error('Failed to catch labels')
+            }
+            const data: Expense[] = await res.json();
+            let totalOfExpense = 0
+            for (let i = 0; i < data.length; i++) {
+                totalOfExpense += data[i].price
+            }
+            console.log('------labels------', data)
             setExpenses(data)
             setTotal(totalOfExpense ? totalOfExpense : 0)
         } catch (error) {
@@ -182,12 +198,29 @@ const Expenses: React.FC = () => {
         return `${day} ${month} ${year}`; // Return in "dd Mon yyyy" formatcd 
     };
 
+    // ---------- for dropdown of labels ---------------
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
+
+    // Toggle dropdown visibility
+    const handleHeaderClick = () => {
+        setDropdownOpen(!isDropdownOpen);
+    };
+
+    // Handle dropdown item click
+    const handleLabelClick = (label: string) => {
+        getSelectedLabelsData(label)
+        setDropdownOpen(false); // Close the dropdown after selection
+    };
+    // ---------- for dropdown of labels end ---------------
+
+
+
     return (
         <>
             <Navbar />
             <div className='general tertiary-color'>
                 <div style={{ display: "flex", justifyContent: "end", gap: "2%" }}>
-                    <input className="tertiary-text" type="date" placeholder="Date" onChange={e =>  setExpense({ ...expense, date: e.target.value }) } />
+                    <input className="tertiary-text" type="date" placeholder="Date" onChange={e => setExpense({ ...expense, date: e.target.value })} />
 
                     <select className="tertiary-text" onChange={e => setExpense({ ...expense, label: e.target.value })}>
                         <option value="" disabled selected>Select Category</option>
@@ -199,6 +232,7 @@ const Expenses: React.FC = () => {
                     <input type="number" placeholder="Price" onChange={e => setExpense({ ...expense, price: Number(e.target.value) })} />
 
                     <button onClick={addAnExpense} className="general-button secondary-color">Add</button>
+                    <button onClick={addAnExpense} className="general-button secondary-color">filters</button>
                 </div>
 
                 <table style={{ marginTop: '2%', width: '100%', textAlign: "center" }}>
@@ -207,7 +241,36 @@ const Expenses: React.FC = () => {
                         <tr>
                             <th className="primary-text">No</th>
                             <th className="primary-text" style={{ cursor: "pointer" }} onClick={() => setIsdateFilterModalOpen(true)}>Date</th>
-                            <th className="primary-text header-cell">Label <div className="filter-icon" title="Filter">&#x25BC;</div></th>
+                            <th className="primary-text header-cell" style={{ cursor: "pointer", position: "relative" }}>
+                                <div onClick={handleHeaderClick}>
+                                    Label <div className="filter-icon" title="Filter">&#x25BC;</div>
+                                </div>
+                                {isDropdownOpen && (
+                                    <div
+                                        className="dropdown"
+                                        style={{
+                                            position: "absolute",
+                                            top: "100%",
+                                            left: "0",
+                                            backgroundColor: "white",
+                                            border: "1px solid #ccc",
+                                            borderRadius: "4px",
+                                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                            zIndex: 1000,
+                                        }}
+                                    >
+                                        {labels.map((label) => (
+                                            <div
+                                                key={label}
+                                                onClick={() => handleLabelClick(label)}
+                                                className="dropdown-item"
+                                            >
+                                                {label}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </th>
                             <th className="primary-text">Description</th>
                             <th className="primary-text">Price</th>
                             <th className="primary-text">Actions</th>

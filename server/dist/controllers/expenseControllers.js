@@ -33,7 +33,7 @@ const createExpense = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.createExpense = createExpense;
 const readAllExpenses = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { date1, date2, label } = req.query;
+        const { date1, date2, label, home } = req.query;
         let filter = {};
         if (date1 && date2 && label) {
             // Parse and filter expenses between date1 and date2
@@ -61,6 +61,48 @@ const readAllExpenses = (req, res) => __awaiter(void 0, void 0, void 0, function
                     $eq: label
                 }
             };
+        }
+        else if (home) {
+            // Default to the current month if date1 and date2 are not provided
+            const startOfCurrentMonth = (0, date_fns_1.startOfMonth)(new Date());
+            const endOfCurrentMonth = (0, date_fns_1.endOfMonth)(new Date());
+            filter = {
+                date: {
+                    $gte: startOfCurrentMonth,
+                    $lte: endOfCurrentMonth,
+                },
+            };
+            const expenses = yield expenseSchema_1.default.find(filter).sort({ date: 1 }); // Sort by date field in ascending order
+            // console.log("expenese", expenses)
+            //     1. create var labelsHash
+            //     2. loop through data
+            //     a.if new label => initiate 1 in labelsHash
+            //     b.else => addLabels with 1
+            //     3. loop through hashMap 
+            //     a. get keys and values seperate in diff arrays
+            let labelsHash = {}; // Initialize the hash map
+            let labels = [];
+            let values = [];
+            for (let i = 0; i < expenses.length; i++) {
+                let expense = expenses[i];
+                let label = expense.label;
+                let price = expense.price;
+                if (!(label in labelsHash)) {
+                    labelsHash[label] = price;
+                }
+                else {
+                    labelsHash[label] += price;
+                }
+            }
+            // console.log("label map", labelsHash)
+            Object.entries(labelsHash).forEach(([key, value]) => {
+                labels.push(key);
+                values.push(value);
+            });
+            // console.log("labels", labels)
+            // console.log("values", values)
+            res.status(200).json({ labels, values });
+            return;
         }
         else {
             // Default to the current month if date1 and date2 are not provided

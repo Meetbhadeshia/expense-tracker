@@ -34,7 +34,7 @@
     4. total value of Expenses (done)
     5. modal
         - date filter (done)
-        - label filter 
+        - label filter
 
 5. Profile
     1. Personal details (save changes only on personal details change)
@@ -51,7 +51,7 @@
     5. delete user button (done)
 
 6. Home 
-    1. Connect graphs with original data
+    1. Connect graphs with original data (done)
 
 7. Cash 
     1. Make cash page
@@ -117,3 +117,4 @@ future updates
 - delete user
 - download table in excel
 - mobile friendly
+- login bothside validatons and jwt

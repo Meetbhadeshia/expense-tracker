@@ -7,11 +7,12 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 interface PieProps {
     chartSeries: number[];
     showDataLabels?: boolean;
+    labels: string[]
 }
 
-export default function Pie({ chartSeries, showDataLabels = true }: PieProps) {
+export default function Pie({ chartSeries, showDataLabels, labels }: PieProps) {
     const chartOptions: ApexOptions = {
-        labels: ['Food', 'Rent', 'Education'],
+        labels,
         dataLabels: {
             enabled: true,
             formatter: (val, opts) => {
