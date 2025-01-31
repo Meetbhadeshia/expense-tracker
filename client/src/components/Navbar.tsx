@@ -6,18 +6,18 @@ const Menu = [
         name: "Home",
         link: "/"
     },
-    {
-        name: "Profile",
-        link: "/profile"
-    },
+    // {
+    //     name: "Profile",
+    //     link: "/profile"
+    // },
     {
         name: "Add expense",
         link: "/expenses"
     },
-    {
-        name: "Cash",
-        link: "/"
-    }
+    // {
+    //     name: "Cash",
+    //     link: "/"
+    // }
 ]
 
 const Navbar = () => {
@@ -28,7 +28,7 @@ const Navbar = () => {
 
     return (
         <>
-            <div style={{ display: "flex", justifyContent: "space-between" }} className="general-padding primary-color">
+            <div style={{ display: "flex", justifyContent: "space-between" }} className="general-padding primary-background">
 
                 <button className="general-button" onClick={() => moveToPage("/")}>logo</button>
                 <div style={{ display: "flex", gap: "1vw" }}>

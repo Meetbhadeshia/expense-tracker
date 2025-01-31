@@ -38,6 +38,7 @@ const Expenses: React.FC = () => {
     })
 
     const closeModal = () => {
+        setIsModalOpen(false)
         setIsdateFilterModalOpen(false);
         clearVariable();
     }
@@ -232,16 +233,16 @@ const Expenses: React.FC = () => {
                     <input type="number" placeholder="Price" onChange={e => setExpense({ ...expense, price: Number(e.target.value) })} />
 
                     <button onClick={addAnExpense} className="general-button secondary-color">Add</button>
-                    <button onClick={addAnExpense} className="general-button secondary-color">filters</button>
+                    <button onClick={() => setIsModalOpen(true)} className="general-button secondary-color">filters</button>
                 </div>
 
                 <table style={{ marginTop: '2%', width: '100%', textAlign: "center" }}>
                     <thead>
 
                         <tr>
-                            <th className="primary-text">No</th>
-                            <th className="primary-text" style={{ cursor: "pointer" }} onClick={() => setIsdateFilterModalOpen(true)}>Date</th>
-                            <th className="primary-text header-cell" style={{ cursor: "pointer", position: "relative" }}>
+                            <th className="secondary-color">No</th>
+                            <th className="secondary-color" style={{ cursor: "pointer" }} onClick={() => setIsdateFilterModalOpen(true)}>Date</th>
+                            <th className="secondary-color header-cell" style={{ cursor: "pointer", position: "relative" }}>
                                 <div onClick={handleHeaderClick}>
                                     Label <div className="filter-icon" title="Filter">&#x25BC;</div>
                                 </div>
@@ -271,9 +272,9 @@ const Expenses: React.FC = () => {
                                     </div>
                                 )}
                             </th>
-                            <th className="primary-text">Description</th>
-                            <th className="primary-text">Price</th>
-                            <th className="primary-text">Actions</th>
+                            <th className="secondary-color text-3xl">Description</th>
+                            <th className="secondary-color">Price</th>
+                            <th className="secondary-color">Actions</th>
                         </tr>
 
                     </thead>
@@ -323,21 +324,43 @@ const Expenses: React.FC = () => {
 
                 <p className="primary-text" style={{ marginTop: "10px", textAlign: "end" }}>Total: <strong>{total}</strong></p>
 
-                {/* Add New Expense Modal */}
+                {/* Filter Modal */}
                 <Modal isOpen={isModalOpen} onClose={closeModal}>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "start", gap: "2vh" }}>
-                        <h2>Enter your expense</h2>
+                        <h2>Filters</h2>
 
-                        <input type="date" placeholder="Date" onChange={e => setExpense({ ...expense, date: e.target.value })} />
+                        <p className="primary-text">Starting date: <input type="date" placeholder="Date" onChange={e => setDates({ ...dates, date1: e.target.value })} /> </p>
 
-                        <select onChange={e => setExpense({ ...expense, label: e.target.value })}>
-                            <option value="" disabled selected>Select Category</option>
-                            {labels.map((label, index) => <option key={index} value={label}>{label}</option>)}
-                        </select>
+                        <p className="primary-text">End date: <input type="date" placeholder="Date" onChange={e => setDates({ ...dates, date2: e.target.value })} /></p>
 
-                        <input type="text" placeholder="Description" onChange={e => setExpense({ ...expense, description: e.target.value })} />
-
-                        <input type="number" placeholder="Price" onChange={e => setExpense({ ...expense, price: Number(e.target.value) })} />
+                        <div onClick={handleHeaderClick}>
+                            Label <div className="filter-icon" title="Filter">&#x25BC;</div>
+                        </div>
+                        {isDropdownOpen && (
+                            <div
+                                className="dropdown"
+                                style={{
+                                    position: "absolute",
+                                    top: "100%",
+                                    left: "0",
+                                    backgroundColor: "white",
+                                    border: "1px solid #ccc",
+                                    borderRadius: "4px",
+                                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                    zIndex: 1000,
+                                }}
+                            >
+                                {labels.map((label) => (
+                                    <div
+                                        key={label}
+                                        onClick={() => handleLabelClick(label)}
+                                        className="dropdown-item"
+                                    >
+                                        {label}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
 
                         <button onClick={addAnExpense}>Add</button>
                     </div>
