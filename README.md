@@ -2,16 +2,16 @@
 
 Simple expense tracker, to watch your monthly expenses
 
-## Features
+### Features
 
 1. Graphs on Homepage
 1. Add, view, edit and delete expense
 
-## Project requirements
+### Project requirements
 
 Nodejs, Mongodb with MongodbCompass(optional, its for mongodb gui)
 
-## Project installation
+### Project installation
 
 1. Install all of the above requirements
 1. Go into client folder in terminal, run 'npm i'. It will install all the dependencies.
