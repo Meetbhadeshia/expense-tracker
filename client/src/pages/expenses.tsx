@@ -199,9 +199,9 @@ const Expenses: React.FC = () => {
             <Navbar />
             <div className='general tertiary-color'>
                 <div style={{ display: "flex", justifyContent: "end", gap: "2%" }}>
-                    <input className="tertiary-text" type="date" placeholder="Date" onChange={e => setExpense({ ...expense, date: e.target.value })} />
+                    <input className="tertiary-color" type="date" placeholder="Date" onChange={e => setExpense({ ...expense, date: e.target.value })} />
 
-                    <select className="tertiary-text" onChange={e => setExpense({ ...expense, label: e.target.value })}>
+                    <select className="tertiary-color" onChange={e => setExpense({ ...expense, label: e.target.value })}>
                         <option value="" disabled selected>Select Category</option>
                         {labels.map((label, index) => <option key={index} value={label}>{label}</option>)}
                     </select>
