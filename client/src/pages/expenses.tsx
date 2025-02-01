@@ -21,6 +21,7 @@ const Expenses: React.FC = () => {
 
     const [selectedExpense, setSelectedExpense] = useState<any>(null); // The expense to be edited or deleted
     const [labels, setLabels] = useState(["Food", "Rent", "Education", "Essential cost", "Non essential cost"]);
+    const [selectedLabel, setSelectedLabel] = useState<String>('')
 
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [expense, setExpense] = useState({
@@ -62,7 +63,7 @@ const Expenses: React.FC = () => {
     const getAllExpenses = async () => {
         try {
             console.log("---dates----", dates)
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/expenses?date1=${dates.date1}&date2=${dates.date2}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/expenses?date1=${dates.date1}&date2=${dates.date2}&label=${selectedLabel}`, {
                 cache: "no-store",
             })
             // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/expenses?label=Rent`, {
@@ -78,28 +79,6 @@ const Expenses: React.FC = () => {
                 totalOfExpense += data[i].price
             }
             console.log('------data------', data)
-            setExpenses(data)
-            setTotal(totalOfExpense ? totalOfExpense : 0)
-        } catch (error) {
-            console.log("Error loading expenses", error)
-        }
-    }
-
-    const getSelectedLabelsData = async (selectedLabel: string) => {
-        try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/expenses?date1=${dates.date1}&date2=${dates.date2}&label=${selectedLabel}`, {
-                cache: "no-store",
-            })
-
-            if (!res.ok) {
-                throw new Error('Failed to catch labels')
-            }
-            const data: Expense[] = await res.json();
-            let totalOfExpense = 0
-            for (let i = 0; i < data.length; i++) {
-                totalOfExpense += data[i].price
-            }
-            console.log('------labels------', data)
             setExpenses(data)
             setTotal(totalOfExpense ? totalOfExpense : 0)
         } catch (error) {
@@ -189,7 +168,7 @@ const Expenses: React.FC = () => {
 
     useEffect(() => {
         getAllExpenses()
-    }, [expense])
+    }, [])
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -209,7 +188,6 @@ const Expenses: React.FC = () => {
 
     // Handle dropdown item click
     const handleLabelClick = (label: string) => {
-        getSelectedLabelsData(label)
         setDropdownOpen(false); // Close the dropdown after selection
     };
     // ---------- for dropdown of labels end ---------------
@@ -232,8 +210,8 @@ const Expenses: React.FC = () => {
 
                     <input type="number" placeholder="Price" onChange={e => setExpense({ ...expense, price: Number(e.target.value) })} />
 
-                    <button onClick={addAnExpense} className="general-button secondary-color">Add</button>
-                    <button onClick={() => setIsModalOpen(true)} className="general-button secondary-color">filters</button>
+                    <button onClick={addAnExpense} className="general-button primary-color">Add</button>
+                    <button onClick={() => setIsModalOpen(true)} className="general-button primary-color">Filters</button>
                 </div>
 
                 <table style={{ marginTop: '2%', width: '100%', textAlign: "center" }}>
@@ -244,7 +222,7 @@ const Expenses: React.FC = () => {
                             <th className="secondary-color" style={{ cursor: "pointer" }} onClick={() => setIsdateFilterModalOpen(true)}>Date</th>
                             <th className="secondary-color header-cell" style={{ cursor: "pointer", position: "relative" }}>
                                 <div onClick={handleHeaderClick}>
-                                    Label <div className="filter-icon" title="Filter">&#x25BC;</div>
+                                    Label: <div className="filter-icon" title="Filter">&#x25BC;</div>
                                 </div>
                                 {isDropdownOpen && (
                                     <div
@@ -333,36 +311,15 @@ const Expenses: React.FC = () => {
 
                         <p className="primary-text">End date: <input type="date" placeholder="Date" onChange={e => setDates({ ...dates, date2: e.target.value })} /></p>
 
-                        <div onClick={handleHeaderClick}>
-                            Label <div className="filter-icon" title="Filter">&#x25BC;</div>
+                        <div>
+                            Label: <div className="filter-icon" title="Filter">&#x25BC;</div>
+                            <select className="tertiary-text" onChange={e => setSelectedLabel(e.target.value)}>
+                                <option value="" disabled selected>Select Category</option>
+                                {labels.map((label, index) => <option key={index} value={label}>{label}</option>)}
+                            </select>
                         </div>
-                        {isDropdownOpen && (
-                            <div
-                                className="dropdown"
-                                style={{
-                                    position: "absolute",
-                                    top: "100%",
-                                    left: "0",
-                                    backgroundColor: "white",
-                                    border: "1px solid #ccc",
-                                    borderRadius: "4px",
-                                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                    zIndex: 1000,
-                                }}
-                            >
-                                {labels.map((label) => (
-                                    <div
-                                        key={label}
-                                        onClick={() => handleLabelClick(label)}
-                                        className="dropdown-item"
-                                    >
-                                        {label}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
 
-                        <button onClick={addAnExpense}>Add</button>
+                        <button onClick={addAnExpense}>Find</button>
                     </div>
                 </Modal>
 
