@@ -12,7 +12,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
+      <div className="modal-content" style={{ background: "lightgrey" }}>
         <button onClick={onClose} className="close-button">X</button>
         {children}
       </div>

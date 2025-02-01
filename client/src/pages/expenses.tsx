@@ -80,6 +80,7 @@ const Expenses: React.FC = () => {
             }
             console.log('------data------', data)
             setExpenses(data)
+            clearVariable()
             setTotal(totalOfExpense ? totalOfExpense : 0)
         } catch (error) {
             console.log("Error loading expenses", error)
@@ -212,45 +213,16 @@ const Expenses: React.FC = () => {
 
                     <button onClick={addAnExpense} className="general-button primary-color">Add</button>
                     <button onClick={() => setIsModalOpen(true)} className="general-button primary-color">Filters</button>
-                </div>
+                </div>cd cl
 
                 <table style={{ marginTop: '2%', width: '100%', textAlign: "center" }}>
                     <thead>
 
                         <tr>
                             <th className="secondary-color">No</th>
-                            <th className="secondary-color" style={{ cursor: "pointer" }} onClick={() => setIsdateFilterModalOpen(true)}>Date</th>
-                            <th className="secondary-color header-cell" style={{ cursor: "pointer", position: "relative" }}>
-                                <div onClick={handleHeaderClick}>
-                                    Label: <div className="filter-icon" title="Filter">&#x25BC;</div>
-                                </div>
-                                {isDropdownOpen && (
-                                    <div
-                                        className="dropdown"
-                                        style={{
-                                            position: "absolute",
-                                            top: "100%",
-                                            left: "0",
-                                            backgroundColor: "white",
-                                            border: "1px solid #ccc",
-                                            borderRadius: "4px",
-                                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                            zIndex: 1000,
-                                        }}
-                                    >
-                                        {labels.map((label) => (
-                                            <div
-                                                key={label}
-                                                onClick={() => handleLabelClick(label)}
-                                                className="dropdown-item"
-                                            >
-                                                {label}
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </th>
-                            <th className="secondary-color text-3xl">Description</th>
+                            <th className="secondary-color">Date</th>
+                            <th className="secondary-color">Label</th>
+                            <th className="secondary-color">Description</th>
                             <th className="secondary-color">Price</th>
                             <th className="secondary-color">Actions</th>
                         </tr>
@@ -270,7 +242,7 @@ const Expenses: React.FC = () => {
 
                                 <td className='primary-text'>{expense.price}</td>
 
-                                <td className='primary-text' style={{ display: "flex", justifyContent: "center", gap: "2%" }}>
+                                <td className='primary-text' style={{ display: "flex", justifyContent: "center", gap: "2%", padding: "11px 0" }}>
                                     <MdEdit color={'green'} style={{ cursor: "pointer" }} onClick={() => {
                                         setExpense({
                                             id: expense._id,
@@ -305,13 +277,13 @@ const Expenses: React.FC = () => {
                 {/* Filter Modal */}
                 <Modal isOpen={isModalOpen} onClose={closeModal}>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "start", gap: "2vh" }}>
-                        <h2>Filters</h2>
+                        <h2 className="primary-color">Filters</h2>
 
-                        <p className="primary-text">Starting date: <input type="date" placeholder="Date" onChange={e => setDates({ ...dates, date1: e.target.value })} /> </p>
+                        <p className="primary-color">Starting date: <input type="date" placeholder="Date" onChange={e => setDates({ ...dates, date1: e.target.value })} /> </p>
 
-                        <p className="primary-text">End date: <input type="date" placeholder="Date" onChange={e => setDates({ ...dates, date2: e.target.value })} /></p>
+                        <p className="primary-color">End date: <input type="date" placeholder="Date" onChange={e => setDates({ ...dates, date2: e.target.value })} /></p>
 
-                        <div>
+                        <div className="primary-color">
                             Label: <div className="filter-icon" title="Filter">&#x25BC;</div>
                             <select className="tertiary-text" onChange={e => setSelectedLabel(e.target.value)}>
                                 <option value="" disabled selected>Select Category</option>
@@ -319,7 +291,7 @@ const Expenses: React.FC = () => {
                             </select>
                         </div>
 
-                        <button onClick={addAnExpense}>Find</button>
+                        <button onClick={addAnExpense} className="general-button primary-color">Find</button>
                     </div>
                 </Modal>
 
