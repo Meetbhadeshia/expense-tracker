@@ -9,6 +9,7 @@ const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
 const expenseRoutes_1 = __importDefault(require("./routes/expenseRoutes")); // Ensure the correct path and .js extension
 const userRoutes_1 = __importDefault(require("./routes/userRoutes")); // Ensure the correct path and .js extension
+const labelRoutes_1 = __importDefault(require("./routes/labelRoutes"));
 // Initialize Express
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5000;
@@ -25,6 +26,7 @@ mongoose_1.default.connect(MONGODB_URI)
 // routes
 app.use("/api/expenses", expenseRoutes_1.default);
 app.use("/api/users", userRoutes_1.default);
+app.use("/api/labels", labelRoutes_1.default);
 app.get("/", (req, res) => { res.send("hi"); });
 // Start the server
 app.listen(PORT, () => {

@@ -4,6 +4,7 @@ import cors from "cors";
 import morgan from "morgan"
 import expenseRoutes from "./routes/expenseRoutes"; // Ensure the correct path and .js extension
 import userRoutes from "./routes/userRoutes"; // Ensure the correct path and .js extension
+import labelRoutes from "./routes/labelRoutes"; 
 
 // Initialize Express
 const app = express();
@@ -26,6 +27,7 @@ mongoose.connect(MONGODB_URI)
 // routes
 app.use("/api/expenses", expenseRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/labels", labelRoutes);
 
 app.get("/", (req, res) => { res.send("hi") })
 
