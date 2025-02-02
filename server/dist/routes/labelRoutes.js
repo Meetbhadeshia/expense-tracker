@@ -8,4 +8,7 @@ const router = express_1.default.Router();
 const labelControllers_1 = require("../controllers/labelControllers");
 // Routes
 router.post('/', labelControllers_1.createLabel);
+router.get('/:userId', labelControllers_1.getLabelsAccordingToAUser);
+router.put('/:id', labelControllers_1.editLabel);
+router.delete('/:id', labelControllers_1.deleteLabel);
 exports.default = router;
