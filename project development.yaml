@@ -26,15 +26,16 @@
         a. find graphs library (done)
         b. 1st graph for percentage with labels (done)
         c. 2nd graph for values with labels (done)
+    3. go to login if not loggedin otherwise give access to any route
 
 4. Expenses
     1. Navbar with Logo, profile icon, home, and cash button (done)
     2. Entry line for adding below the navbar (done)
     3. New actions column with edit and delete icons. (done)
     4. total value of Expenses (done)
-    5. modal
+    5. modal (done)
         - date filter (done)
-        - label filter
+        - label filter (done)
 
 5. Profile
     1. Personal details (save changes only on personal details change)
@@ -55,6 +56,10 @@
 
 7. Cash 
     1. Make cash page
+
+8. Message component
+    1. Create message component
+    2. Include in pages like login, signup, expenses, for labels
 
 ---------------Backend-------------
 1. backend apis for expenses (done)
@@ -94,21 +99,21 @@
             - password (done)
             - createdAt, updatedAt (done)
 
-4. label
-    a. labels create, edit, read and delete
-        - routes
-            - create label
-            - read all labels
-            - update label
-            - delete label
-        - controllers
-            - create label function
-            - read labels function
-            - edit label function
-            - delete label function 
-        - model
-            - name
-            - createdAt, updatedAt
+4. label (done)
+    a. labels create, edit, read and delete (done)
+        - routes (done)
+            - create label (done)
+            - read all labels (done)
+            - update label (done)
+            - delete label (done)
+        - controllers (done)
+            - create label function (done)
+            - read labels function (done)
+            - edit label function (done)
+            - delete label function (done) 
+        - model (done)
+            - name (done)
+            - createdAt, updatedAt (done)
 
 future updates
 - currency update
