@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'
 import toast, { Toaster } from 'react-hot-toast';
+import { notify } from '@/utils/toaster';
 
 const Login = () => {
     const router = useRouter()
@@ -31,20 +32,18 @@ const Login = () => {
                 });
             } else {
                 console.error('Unexpected error response format', errorData);
-                notify("Fail")
+                notify("error", "Failed to login")
             }
         } else {
-            notify("Success")
+            notify("success", "Login successful")
 
             setInterval(() => {
                 router.push("/")
-            }, 5000)
+            }, 2000)
 
             const data = await res.json();
         }
     }
-
-    const notify = (message: string) => toast(message)
 
     return (
         <div style={{
