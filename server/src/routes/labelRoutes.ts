@@ -8,5 +8,4 @@ router.get('/:userId', getLabelsAccordingToAUser)
 router.put('/:id', editLabel)
 router.delete('/:id', deleteLabel)
 
-
 export default router

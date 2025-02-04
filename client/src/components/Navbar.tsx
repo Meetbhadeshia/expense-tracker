@@ -6,10 +6,10 @@ const Menu = [
         name: "Home",
         link: "/"
     },
-    // {
-    //     name: "Profile",
-    //     link: "/profile"
-    // },
+    {
+        name: "Profile",
+        link: "/profile"
+    },
     {
         name: "Add expense",
         link: "/expenses"
