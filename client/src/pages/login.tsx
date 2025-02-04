@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'
-import Message from '@/components/Message';
 import toast, { Toaster } from 'react-hot-toast';
-
-
 
 const Login = () => {
     const router = useRouter()
@@ -12,8 +9,6 @@ const Login = () => {
         email: "",
         password: ""
     })
-
-
 
     const loginUser = async () => {
 
@@ -40,23 +35,16 @@ const Login = () => {
             }
         } else {
             notify("Success")
+
             setInterval(() => {
                 router.push("/")
             }, 5000)
 
             const data = await res.json();
-
         }
     }
 
-    const notify = (message) => toast(message)
-
-    const handleClick = () => {
-
-        loginUser()
-        // notify()
-    }
-
+    const notify = (message: string) => toast(message)
 
     return (
         <div style={{
@@ -89,10 +77,10 @@ const Login = () => {
                 fontSize: '16px',
                 borderRadius: '4px'
             }}
-                onClick={() => handleClick()}>
+                onClick={() => loginUser()}>
                 Submit
             </button>
-            <Toaster/>
+            <Toaster />
             {/* <Message/> */}
             <p style={{ marginTop: "1%", fontSize: ".9rem" }}>Not a user? <a onClick={() => router.push("signup")} style={{ textDecoration: "underline", color: "blue", cursor: "pointer" }}>signup</a></p>
         </div >
