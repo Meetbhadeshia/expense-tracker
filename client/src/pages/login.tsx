@@ -1,102 +1,112 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Message from '@/components/Message';
-import toast, { Toaster } from 'react-hot-toast';
-
+import toast, { Toaster } from 'react-hot-toast'
 
 
 const Login = () => {
-    const router = useRouter()
+    const router = useRouter();
+    const [user, setUser] = useState({ email: "", password: "" })
+    const [showPassword, setShowPassword] = useState(false)
+    const [rememberMe, setRememberMe] = useState(false)
 
-    const [user, setUser] = useState({
-        email: "",
-        password: ""
-    })
+    const notify = (message: string) => toast(message)
 
-
-
-    const loginUser = async () => {
-
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/users/login`, {
-            method: "POST",  // Specify the HTTP method
-            headers: {
-                "Content-Type": "application/json",  // Specify that we're sending JSON
-            },
-            body: JSON.stringify(user),  // The request body
+    const fetchLogin = async (apiEndpoint: string, user: { email: string; password: string }) => {
+        return await fetch(`${apiEndpoint}/api/users/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(user),
             cache: "no-store",
         })
+    }
 
-        if (!res.ok) {
-            // Parse the error response
-            const errorData = await res.json();
-            if (errorData.errors) {
-                console.log('Errors:', errorData.errors);
-                errorData.errors.forEach((error: String) => {
-                    console.error('Error:', error);
-                });
-            } else {
-                console.error('Unexpected error response format', errorData);
-                notify("Fail")
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        try {
+            const apiEndpoint = process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT || ''
+            const res = await fetchLogin(apiEndpoint, user)
+            const data = await res.json()
+
+            if (res.ok === true) {
+                if (rememberMe) {
+                    localStorage.setItem("userEmail", user.email)
+                }
+                // Safer to authenticate login through backend
+                // localStorage.setItem("authToken", data.token)
+                notify("Login Successful!")
+                setTimeout(() => router.push("/"), 1000)
             }
-        } else {
-            notify("Success")
-            setInterval(() => {
-                router.push("/")
-            }, 5000)
 
-            const data = await res.json();
+            if (res.ok === false) {
+                notify(data.errors?.join(", ") || "Invalid email or password.")
+            }
 
+        } catch (error) {
+            console.error("Login Error:", error)
+            notify("Something went wrong")
         }
     }
 
-    const notify = (message) => toast(message)
-
-    const handleClick = () => {
-
-        loginUser()
-        // notify()
-    }
-
-
     return (
-        <div style={{
-            display: 'flex',
-            justifyContent: 'center',  // Centers horizontally
-            alignItems: 'center',      // Centers vertically
-            width: '100vw',            // Full viewport width
-            height: '100vh',           // Full viewport height
-            flexDirection: 'column'    // Stacks children vertically
-        }}>
-            <h1>Login</h1>
+        <div className="login-container">
+            <div className="login-card">
+                <h1>Login</h1>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        required
+                        value={user.email}
+                        className="login-input"
+                        onChange={(e) => setUser({ ...user, email: e.target.value })}
+                    />
 
-            <input type="text" placeholder="Username"
-                style={{ margin: '8px 0', padding: '8px', width: '200px' }}
-                onChange={e => setUser({ ...user, email: e.target.value })}
-            />
+                    <div className="password-container">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Password"
+                            required
+                            value={user.password}
+                            className="login-input"
+                            onChange={(e) => setUser({ ...user, password: e.target.value })}
+                        />
+                        <span
+                            className="password-toggle"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? "Hide" : "Show"}
+                        </span>
+                    </div>
 
-            <input type="password" placeholder="Password"
-                style={{ margin: '8px 0', padding: '8px', width: '200px' }}
-                onChange={e => setUser({ ...user, password: e.target.value })}
-            />
+                    <div className="remember-me">
+                        <input
+                            type="checkbox"
+                            checked={rememberMe}
+                            onChange={() => setRememberMe(!rememberMe)}
+                        />
+                        <label>Remember Me</label>
+                    </div>
 
-            <button style={{
-                marginTop: '16px',
-                padding: '10px 20px',
-                backgroundColor: '#4CAF50', // Green color
-                color: 'white',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: '16px',
-                borderRadius: '4px'
-            }}
-                onClick={() => handleClick()}>
-                Submit
-            </button>
-            <Toaster/>
-            {/* <Message/> */}
-            <p style={{ marginTop: "1%", fontSize: ".9rem" }}>Not a user? <a onClick={() => router.push("signup")} style={{ textDecoration: "underline", color: "blue", cursor: "pointer" }}>signup</a></p>
-        </div >
+                    <button type="submit" className="login-button">
+                        Submit
+                    </button>
+
+                    <Toaster />
+
+                    <div className="login-links">
+                        <a onClick={() => router.push("/forgot-password")}>
+                            Forgot Password?
+                        </a>
+                        {" | "}
+                        <a onClick={() => router.push("/signup")}>
+                            Signup
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
     );
 };
 
-export default Login;
+export default Login
