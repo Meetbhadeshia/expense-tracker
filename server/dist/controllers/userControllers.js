@@ -16,6 +16,8 @@ exports.deleteUser = exports.updateUser = exports.loginUser = exports.createUser
 const userSchema_1 = __importDefault(require("../schema/userSchema"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const userValidation_1 = require("../validations/userValidation");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const secretKey = process.env.JWT_SECRET;
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { error, value } = userValidation_1.schemaValidation.validate(req.body, { abortEarly: false }); // Set `abortEarly: false` to show all errors
@@ -62,7 +64,9 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             res.status(400).json({ message: 'Invalid password' });
             return;
         }
-        res.status(200).json({ message: 'Login successful', user });
+        const token = jsonwebtoken_1.default.sign({ userId: user._id }, secretKey, { expiresIn: 60 });
+        res.json({ token });
+        // res.status(200).json({ message: 'Login successful', user });
     }
     catch (error) {
         res.status(500).json({ message: 'Error logging in', error });
