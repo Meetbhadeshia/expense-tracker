@@ -35,13 +35,13 @@ const Login = () => {
                 notify("error", "Failed to login")
             }
         } else {
+            const data = await res.json();
+            document.cookie = `authToken=${data.token}; path=/;`
             notify("success", "Login successful")
-
             setInterval(() => {
                 router.push("/")
             }, 2000)
 
-            const data = await res.json();
         }
     }
 
