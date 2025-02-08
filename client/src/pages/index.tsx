@@ -11,8 +11,13 @@ export default function Home() {
   // api call
   const getData = async () => {
     try {
+      const token = document.cookie.replace(/(?:(?:^|.*;\s*)authToken\s*=\s*([^;]*).*$)|^.*$/, "$1");
+      console.log('token home', token)
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/expenses?home=true`, {
-        cache: "no-store",
+        credentials: "include", // Ensures cookies are sent with the request
+        headers: {
+          "Content-Type": "application/json", // Ensure proper content type
+        }
       })
 
       if (!res.ok) {

@@ -56,7 +56,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
             res.status(400).json({ message: 'Invalid password' });
             return;
         }
-        const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: 60 });
+        const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
 
         res.status(200).json({ message: 'Login successful', user, token });
     } catch (error) {

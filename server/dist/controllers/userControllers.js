@@ -64,7 +64,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             res.status(400).json({ message: 'Invalid password' });
             return;
         }
-        const token = jsonwebtoken_1.default.sign({ userId: user._id }, secretKey, { expiresIn: 60 });
+        const token = jsonwebtoken_1.default.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
         res.status(200).json({ message: 'Login successful', user, token });
     }
     catch (error) {
