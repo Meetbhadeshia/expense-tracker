@@ -176,7 +176,7 @@ const Expenses: React.FC = () => {
         const day = String(date.getDate()).padStart(2, '0'); // Get the day and pad with '0' if necessary
         const month = date.toLocaleString('en-US', { month: 'short' }); // Get the short month name (Jan, Feb, etc.)
         const year = date.getFullYear(); // Get the full year
-        return `${day} ${month} ${year}`; // Return in "dd Mon yyyy" formatcd 
+        return `${day} ${month} ${year}`; // Return in "dd Mon yyyy" formatcd
     };
 
     // ---------- for dropdown of labels ---------------
@@ -219,7 +219,7 @@ const Expenses: React.FC = () => {
                     <thead>
 
                         <tr>
-                            <th className="secondary-color">No</th>
+                            <th className="text-3xl font-bold underline">No</th>
                             <th className="secondary-color">Date</th>
                             <th className="secondary-color">Label</th>
                             <th className="secondary-color">Description</th>
