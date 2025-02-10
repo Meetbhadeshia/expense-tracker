@@ -66,11 +66,11 @@ export default function LabelManager({
       </div>
 
       {/* Display list of labels */}
-      <div className="space-y-2">
+      <div className="space-y-2" style={{width: "85%"}}>
         {labels.map((label, index) => (
           <Card key={index} className="flex items-center justify-between p-2">
             {editingIndex === index ? (
-              <div className="flex gap-2 w-full">
+              <div className="flex gap-2">
                 <Input
                   value={editedLabel}
                   onChange={(e) => setEditedLabel(e.target.value)}

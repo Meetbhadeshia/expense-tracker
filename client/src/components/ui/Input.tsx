@@ -16,7 +16,7 @@ const Input = ({value, onChange, placeholder, onKeyDown}: InputProps) => {
             onChange={onChange}
             onKeyDown={onKeyDown}
             placeholder={placeholder}
-            className="w-full p-2 border rounded-md text-black"
+            className="p-2 border rounded-md"
         />
     )
 }
