@@ -1,13 +1,24 @@
 import Navbar from '@/components/Navbar';
 import React, { useState } from 'react'
+import { useRouter } from 'next/router';
 
 const Profile = () => {
+    const router = useRouter()
+
     const [labelChanges, setLabelChanges] = useState([
         { name: "Food", edit: false },
         { name: "Education", edit: false },
         { name: "Rent", edit: false },
         { name: "Essential Cost", edit: false }
     ])
+
+    const Logout = () => {
+        // Delete the cookie
+        document.cookie = 'authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+
+        // redirect to login
+        router.push('/login')
+    }
 
     return (
         <>
@@ -19,17 +30,17 @@ const Profile = () => {
                 <div style={{ display: "flex", gap: "15%", marginTop: "2%" }}>
                     <div>
                         <h4>Name &nbsp;</h4>
-                        <input type="text" value='Meet Bhadeshia' />
+                        <input type="text" defaultValue='Meet Bhadeshia' />
 
                         <div style={{ marginTop: "15%" }}>
                             <h4>Email: &nbsp;</h4>
-                            <input type="text" value='bhadeshiam@gmail.com' />
+                            <input type="text" defaultValue='bhadeshiam@gmail.com' />
                         </div>
                     </div>
 
                     <div>
                         <h4>Password: &nbsp;</h4>
-                        <input type="text" value='MeetBhadeshia' />
+                        <input type="text" defaultValue='MeetBhadeshia' />
 
                         <div style={{ marginTop: "15%" }}>
                             <h4>Current currency: &nbsp;</h4>
@@ -96,7 +107,7 @@ const Profile = () => {
 
                 {/* save changes */}
                 <p style={{ marginTop: "5%" }}>Save changes? <button className="general-button">Yes</button>&nbsp;<button className="general-button">No</button></p>
-                <button className="general-button" style={{ display: "block", marginTop: "2%" }}>Log Out</button>
+                <button className="general-button" style={{ display: "block", marginTop: "2%" }} onClick={() => Logout()}>Log Out</button>
                 <button className="general-button" style={{ marginTop: "2%" }}>Delete user</button>
             </div >
         </>

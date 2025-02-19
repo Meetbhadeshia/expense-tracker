@@ -38,10 +38,9 @@ const Login = () => {
             const data = await res.json();
             document.cookie = `authToken=${data.token}; path=/;`
             notify("success", "Login successful")
-            setInterval(() => {
-                router.push("/")
-            }, 2000)
-
+            setTimeout(() => {
+                router.push("/");
+            }, 2000);
         }
     }
 
