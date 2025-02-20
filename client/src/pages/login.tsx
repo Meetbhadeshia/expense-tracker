@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'
+import toast, { Toaster } from 'react-hot-toast';
+import { notify } from '@/utils/toaster';
 
 const Login = () => {
     const router = useRouter()
@@ -30,10 +32,15 @@ const Login = () => {
                 });
             } else {
                 console.error('Unexpected error response format', errorData);
+                notify("error", "Failed to login")
             }
         } else {
             const data = await res.json();
-            router.push("/")
+            document.cookie = `authToken=${data.token}; path=/;`
+            notify("success", "Login successful")
+            setTimeout(() => {
+                router.push("/");
+            }, 2000);
         }
     }
 
@@ -71,7 +78,8 @@ const Login = () => {
                 onClick={() => loginUser()}>
                 Submit
             </button>
-
+            <Toaster />
+            {/* <Message/> */}
             <p style={{ marginTop: "1%", fontSize: ".9rem" }}>Not a user? <a onClick={() => router.push("signup")} style={{ textDecoration: "underline", color: "blue", cursor: "pointer" }}>signup</a></p>
         </div >
     );

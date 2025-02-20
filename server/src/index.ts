@@ -4,7 +4,7 @@ import cors from "cors";
 import morgan from "morgan"
 import expenseRoutes from "./routes/expenseRoutes"; // Ensure the correct path and .js extension
 import userRoutes from "./routes/userRoutes"; // Ensure the correct path and .js extension
-import labelRoutes from "./routes/labelRoutes"; 
+import labelRoutes from "./routes/labelRoutes";
 
 // Initialize Express
 const app = express();
