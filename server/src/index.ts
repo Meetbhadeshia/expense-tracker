@@ -18,9 +18,9 @@ app.use(cors());
 app.use(morgan('dev')); // Logs requests in 'dev' format
 
 // MongoDB Connection
-const MONGODB_URI = 'mongodb://localhost:27017/expenses'; // Add your DB name here
+// const MONGODB_URI = 'mongodb://localhost:27017/expenses'; // Add your DB name here
 
-mongoose.connect(MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI || 'string')
     .then(() => console.log('MongoDB connected!'))
     .catch((err) => console.log(err));
 

@@ -19,8 +19,8 @@ app.use((0, cors_1.default)());
 // Use morgan middleware
 app.use((0, morgan_1.default)('dev')); // Logs requests in 'dev' format
 // MongoDB Connection
-const MONGODB_URI = 'mongodb://localhost:27017/expenses'; // Add your DB name here
-mongoose_1.default.connect(MONGODB_URI)
+// const MONGODB_URI = 'mongodb://localhost:27017/expenses'; // Add your DB name here
+mongoose_1.default.connect(process.env.MONGODB_URI || 'string')
     .then(() => console.log('MongoDB connected!'))
     .catch((err) => console.log(err));
 // routes
