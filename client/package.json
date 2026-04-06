@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@netlify/plugin-nextjs": "^5.15.9",
     "apexcharts": "^5.10.5",
     "mongodb": "^6.9.0",
     "next": "14.2.13",
