@@ -16,9 +16,11 @@ exports.deleteAnExpense = exports.editAnExpense = exports.readAllExpenses = expo
 const expenseSchema_1 = __importDefault(require("../schema/expenseSchema"));
 const date_fns_1 = require("date-fns"); // date-fns for date handling
 const createExpense = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const { date, description, label, price } = req.body;
+    const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
     try {
-        const expense = yield expenseSchema_1.default.create({ date, description, label, price });
+        const expense = yield expenseSchema_1.default.create({ date, description, label, price, userId });
         res.status(201).json(expense);
     }
     catch (error) {
@@ -32,46 +34,39 @@ const createExpense = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.createExpense = createExpense;
 const readAllExpenses = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
         const { date1, date2, label, home } = req.query;
-        let filter = {};
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
+        let filter = { userId };
         if (date1 && date2 && label) {
             // Parse and filter expenses between date1 and date2
-            filter = {
-                date: {
+            filter = Object.assign(Object.assign({}, filter), { date: {
                     $gte: new Date(date1), // Automatically interprets 'YYYY-MM-DD' format
                     $lte: new Date(date2),
-                },
-                label: {
+                }, label: {
                     $eq: label
-                }
-            };
+                } });
         }
         else if (date1 && date2) {
-            filter = {
-                date: {
+            filter = Object.assign(Object.assign({}, filter), { date: {
                     $gte: new Date(date1), // Automatically interprets 'YYYY-MM-DD' format
                     $lte: new Date(date2),
-                },
-            };
+                } });
         }
         else if (label) {
-            filter = {
-                label: {
+            filter = Object.assign(Object.assign({}, filter), { label: {
                     $eq: label
-                }
-            };
+                } });
         }
         else if (home) {
             // Default to the current month if date1 and date2 are not provided
             const startOfCurrentMonth = (0, date_fns_1.startOfMonth)(new Date());
             const endOfCurrentMonth = (0, date_fns_1.endOfMonth)(new Date());
-            filter = {
-                date: {
+            filter = Object.assign(Object.assign({}, filter), { date: {
                     $gte: startOfCurrentMonth,
                     $lte: endOfCurrentMonth,
-                },
-            };
+                } });
             const expenses = yield expenseSchema_1.default.find(filter).sort({ date: 1 }); // Sort by date field in ascending order
             // console.log("expenese", expenses)
             //     1. create var labelsHash
@@ -108,12 +103,10 @@ const readAllExpenses = (req, res) => __awaiter(void 0, void 0, void 0, function
             // Default to the current month if date1 and date2 are not provided
             const startOfCurrentMonth = (0, date_fns_1.startOfMonth)(new Date());
             const endOfCurrentMonth = (0, date_fns_1.endOfMonth)(new Date());
-            filter = {
-                date: {
+            filter = Object.assign(Object.assign({}, filter), { date: {
                     $gte: startOfCurrentMonth,
                     $lte: endOfCurrentMonth,
-                },
-            };
+                } });
         }
         const expenses = yield expenseSchema_1.default.find(filter).sort({ date: 1 }); // Sort by date field in ascending order
         res.status(200).json(expenses);
@@ -129,10 +122,16 @@ const readAllExpenses = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 exports.readAllExpenses = readAllExpenses;
 const editAnExpense = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const { id, date, label, description, price } = req.body;
+    const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
     try {
-        const updatedExpense = yield expenseSchema_1.default.findOneAndUpdate({ _id: id }, // Use _id to query the document
-        { date, description, label, price });
+        const updatedExpense = yield expenseSchema_1.default.findOneAndUpdate({ _id: id, userId }, // Query with _id and userId
+        { date, description, label, price }, { new: true });
+        if (!updatedExpense) {
+            res.status(404).json({ message: 'Expense not found or unauthorized' });
+            return;
+        }
         res.status(201).json(updatedExpense);
     }
     catch (error) {
@@ -146,9 +145,15 @@ const editAnExpense = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.editAnExpense = editAnExpense;
 const deleteAnExpense = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const { id } = req.body;
+    const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
     try {
-        const deletedExpense = yield expenseSchema_1.default.findOneAndDelete({ _id: id });
+        const deletedExpense = yield expenseSchema_1.default.findOneAndDelete({ _id: id, userId });
+        if (!deletedExpense) {
+            res.status(404).json({ message: 'Expense not found or unauthorized' });
+            return;
+        }
         res.status(201).json(deletedExpense);
     }
     catch (error) {

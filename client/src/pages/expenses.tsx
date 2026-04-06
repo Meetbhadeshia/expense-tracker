@@ -3,6 +3,8 @@ import Modal from '../components/Modal';
 import Navbar from '@/components/Navbar';
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
+import { useRouter } from 'next/navigation';
+import { getAuthToken, logout } from '../utils/auth';
 
 interface Expense {
     _id: string,
@@ -14,6 +16,8 @@ interface Expense {
 }
 
 const Expenses: React.FC = () => {
+    const router = useRouter();
+
     const [isModalOpen, setIsModalOpen] = useState(false); // For adding new expense modal
     const [isDateFilterModalOpen, setIsdateFilterModalOpen] = useState(false); // For adding new expense modal
     const [isEditModalOpen, setIsEditModalOpen] = useState(false); // For editing expense modal
@@ -62,14 +66,28 @@ const Expenses: React.FC = () => {
 
     const getAllExpenses = async () => {
         try {
+            const token = getAuthToken();
+            if (!token) {
+                logout();
+                router.push('/login');
+                return;
+            }
             console.log("---dates----", dates)
             const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/expenses?date1=${dates.date1}&date2=${dates.date2}&label=${selectedLabel}`, {
                 cache: "no-store",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
             })
             // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/expenses?label=Rent`, {
             //     cache: "no-store",
             // })
 
+            if (res.status === 401 || res.status === 403) {
+                logout();
+                router.push('/login');
+                return;
+            }
             if (!res.ok) {
                 throw new Error('Failed to catch expenses')
             }
@@ -103,15 +121,27 @@ const Expenses: React.FC = () => {
 
     const addAnExpense = async () => {
         try {
+            const token = getAuthToken();
+            if (!token) {
+                logout();
+                router.push('/login');
+                return;
+            }
             const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/expenses`, {
                 method: "POST",  // Specify the HTTP method
                 headers: {
                     "Content-Type": "application/json",  // Specify that we're sending JSON
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify(expense),  // The request body
                 cache: "no-store",
             })
 
+            if (res.status === 401 || res.status === 403) {
+                logout();
+                router.push('/login');
+                return;
+            }
             if (!res.ok) {
                 throw new Error('Failed to create expense')
             }
@@ -125,15 +155,27 @@ const Expenses: React.FC = () => {
 
     const editAnExpense = async () => {
         try {
+            const token = getAuthToken();
+            if (!token) {
+                logout();
+                router.push('/login');
+                return;
+            }
             const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/expenses`, {
                 method: "PUT",  // Specify the HTTP method
                 headers: {
                     "Content-Type": "application/json",  // Specify that we're sending JSON
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify(expense),  // The request body
                 cache: "no-store",
             })
 
+            if (res.status === 401 || res.status === 403) {
+                logout();
+                router.push('/login');
+                return;
+            }
             if (!res.ok) {
                 throw new Error('Failed to edit expense')
             }
@@ -147,15 +189,27 @@ const Expenses: React.FC = () => {
 
     const deleteAnExpense = async () => {
         try {
+            const token = getAuthToken();
+            if (!token) {
+                logout();
+                router.push('/login');
+                return;
+            }
             const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/expenses`, {
                 method: "DELETE",  // Specify the HTTP method
                 headers: {
                     "Content-Type": "application/json",  // Specify that we're sending JSON
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify(expense),  // The request body
                 cache: "no-store",
             })
 
+            if (res.status === 401 || res.status === 403) {
+                logout();
+                router.push('/login');
+                return;
+            }
             if (!res.ok) {
                 throw new Error('Failed to delete expense')
             }

@@ -4,9 +4,10 @@ import { startOfMonth, endOfMonth } from 'date-fns'; // date-fns for date handli
 
 export const createExpense = async (req: Request, res: Response): Promise<void> => {
     const { date, description, label, price } = req.body;
+    const userId = (req as any).user?.userId;
 
     try {
-        const expense = await Expense.create({ date, description, label, price });
+        const expense = await Expense.create({ date, description, label, price, userId });
         res.status(201).json(expense);
     } catch (error) {
         if (error instanceof Error) {
@@ -20,10 +21,12 @@ export const createExpense = async (req: Request, res: Response): Promise<void> 
 export const readAllExpenses = async (req: Request, res: Response): Promise<void> => {
     try {
         const { date1, date2, label, home } = req.query;
-        let filter = {};
+        const userId = (req as any).user?.userId;
+        let filter: any = { userId };
         if (date1 && date2 && label) {
             // Parse and filter expenses between date1 and date2
             filter = {
+                ...filter,
                 date: {
                     $gte: new Date(date1 as string), // Automatically interprets 'YYYY-MM-DD' format
                     $lte: new Date(date2 as string),
@@ -34,6 +37,7 @@ export const readAllExpenses = async (req: Request, res: Response): Promise<void
             };
         } else if (date1 && date2) {
             filter = {
+                ...filter,
                 date: {
                     $gte: new Date(date1 as string), // Automatically interprets 'YYYY-MM-DD' format
                     $lte: new Date(date2 as string),
@@ -41,6 +45,7 @@ export const readAllExpenses = async (req: Request, res: Response): Promise<void
             };
         } else if (label) {
             filter = {
+                ...filter,
                 label: {
                     $eq: label
                 }
@@ -51,6 +56,7 @@ export const readAllExpenses = async (req: Request, res: Response): Promise<void
             const startOfCurrentMonth = startOfMonth(new Date());
             const endOfCurrentMonth = endOfMonth(new Date());
             filter = {
+                ...filter,
                 date: {
                     $gte: startOfCurrentMonth,
                     $lte: endOfCurrentMonth,
@@ -91,6 +97,7 @@ export const readAllExpenses = async (req: Request, res: Response): Promise<void
             const startOfCurrentMonth = startOfMonth(new Date());
             const endOfCurrentMonth = endOfMonth(new Date());
             filter = {
+                ...filter,
                 date: {
                     $gte: startOfCurrentMonth,
                     $lte: endOfCurrentMonth,
@@ -112,9 +119,14 @@ export const readAllExpenses = async (req: Request, res: Response): Promise<void
 
 export const editAnExpense = async (req: Request, res: Response): Promise<void> => {
     const { id, date, label, description, price } = req.body;
+    const userId = (req as any).user?.userId;
     try {
-        const updatedExpense = await Expense.findOneAndUpdate({ _id: id }, // Use _id to query the document
-            { date, description, label, price })
+        const updatedExpense = await Expense.findOneAndUpdate({ _id: id, userId }, // Query with _id and userId
+            { date, description, label, price }, { new: true })
+        if (!updatedExpense) {
+            res.status(404).json({ message: 'Expense not found or unauthorized' });
+            return;
+        }
         res.status(201).json(updatedExpense);
     } catch (error) {
         if (error instanceof Error) {
@@ -127,8 +139,13 @@ export const editAnExpense = async (req: Request, res: Response): Promise<void> 
 
 export const deleteAnExpense = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.body;
+    const userId = (req as any).user?.userId;
     try {
-        const deletedExpense = await Expense.findOneAndDelete({ _id: id })
+        const deletedExpense = await Expense.findOneAndDelete({ _id: id, userId })
+        if (!deletedExpense) {
+            res.status(404).json({ message: 'Expense not found or unauthorized' });
+            return;
+        }
         res.status(201).json(deletedExpense);
     } catch (error) {
         if (error instanceof Error) {

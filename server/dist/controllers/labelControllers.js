@@ -15,7 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteLabel = exports.editLabel = exports.getLabelsAccordingToAUser = exports.createLabel = void 0;
 const labelSchema_1 = __importDefault(require("../schema/labelSchema"));
 const createLabel = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { label, userId } = req.body;
+    var _a;
+    const { label } = req.body;
+    const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
     try {
         const name = yield labelSchema_1.default.create({ label, userId });
         res.status(201).json(name);
@@ -31,12 +33,9 @@ const createLabel = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.createLabel = createLabel;
 const getLabelsAccordingToAUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
-        const { userId } = req.params;
-        // Validate ObjectId format
-        if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
-            res.status(400).json({ message: 'Invalid userId format' });
-        }
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
         // Find labels for the given userId
         const labels = yield labelSchema_1.default.find({ userId });
         // Check if labels exist
@@ -52,6 +51,7 @@ const getLabelsAccordingToAUser = (req, res) => __awaiter(void 0, void 0, void 0
 });
 exports.getLabelsAccordingToAUser = getLabelsAccordingToAUser;
 const editLabel = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
         const { id } = req.params;
         const { label } = req.body;
@@ -59,8 +59,9 @@ const editLabel = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!id.match(/^[0-9a-fA-F]{24}$/)) {
             res.status(400).json({ message: 'Invalid label ID format' });
         }
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
         // Find and update the label
-        const updatedLabel = yield labelSchema_1.default.findByIdAndUpdate(id, { label }, // Update only the label field
+        const updatedLabel = yield labelSchema_1.default.findOneAndUpdate({ _id: id, userId }, { label }, // Update only the label field
         { new: true, runValidators: true } // Return updated document & validate changes
         );
         // If no label is found, return a 404 response
@@ -76,14 +77,16 @@ const editLabel = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.editLabel = editLabel;
 const deleteLabel = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
         const { id } = req.params;
         // Validate ObjectId format
         if (!id.match(/^[0-9a-fA-F]{24}$/)) {
             res.status(400).json({ message: 'Invalid label ID format' });
         }
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
         // Find and delete the label
-        const deletedLabel = yield labelSchema_1.default.findByIdAndDelete(id);
+        const deletedLabel = yield labelSchema_1.default.findOneAndDelete({ _id: id, userId });
         // If label is not found, return a 404 response
         if (!deletedLabel) {
             res.status(404).json({ message: 'Label not found' });

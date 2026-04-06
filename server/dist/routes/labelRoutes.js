@@ -6,9 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const labelControllers_1 = require("../controllers/labelControllers");
+const auth_1 = require("../middlewares/auth");
 // Routes
-router.post('/', labelControllers_1.createLabel);
-router.get('/:userId', labelControllers_1.getLabelsAccordingToAUser);
-router.put('/:id', labelControllers_1.editLabel);
-router.delete('/:id', labelControllers_1.deleteLabel);
+router.post('/', auth_1.authenticate, labelControllers_1.createLabel);
+router.get('/', auth_1.authenticate, labelControllers_1.getLabelsAccordingToAUser);
+router.put('/:id', auth_1.authenticate, labelControllers_1.editLabel);
+router.delete('/:id', auth_1.authenticate, labelControllers_1.deleteLabel);
 exports.default = router;

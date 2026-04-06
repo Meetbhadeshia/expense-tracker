@@ -9,7 +9,8 @@ const expenseSchema = new mongoose_1.default.Schema({
     date: Date,
     label: String,
     description: String,
-    price: Number
+    price: Number,
+    userId: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'User', required: true }
 }, {
     timestamps: true
 });

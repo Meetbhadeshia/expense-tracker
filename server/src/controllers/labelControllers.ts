@@ -2,7 +2,8 @@ import { Request, Response } from 'express';
 import Label from "../schema/labelSchema"
 
 export const createLabel = async (req: Request, res: Response): Promise<void> => {
-    const { label, userId } = req.body;
+    const { label } = req.body;
+    const userId = (req as any).user?.userId;
 
     try {
         const name = await Label.create({ label, userId });
@@ -19,12 +20,7 @@ export const createLabel = async (req: Request, res: Response): Promise<void> =>
 
 export const getLabelsAccordingToAUser = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { userId } = req.params;
-
-        // Validate ObjectId format
-        if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
-            res.status(400).json({ message: 'Invalid userId format' });
-        }
+        const userId = (req as any).user?.userId;
 
         // Find labels for the given userId
         const labels = await Label.find({ userId });
@@ -51,9 +47,11 @@ export const editLabel = async (req: Request, res: Response): Promise<void> => {
             res.status(400).json({ message: 'Invalid label ID format' });
         }
 
+        const userId = (req as any).user?.userId;
+
         // Find and update the label
-        const updatedLabel = await Label.findByIdAndUpdate(
-            id,
+        const updatedLabel = await Label.findOneAndUpdate(
+            { _id: id, userId },
             { label }, // Update only the label field
             { new: true, runValidators: true } // Return updated document & validate changes
         );
@@ -79,8 +77,10 @@ export const deleteLabel = async (req: Request, res: Response): Promise<void> =>
             res.status(400).json({ message: 'Invalid label ID format' });
         }
 
+        const userId = (req as any).user?.userId;
+
         // Find and delete the label
-        const deletedLabel = await Label.findByIdAndDelete(id);
+        const deletedLabel = await Label.findOneAndDelete({ _id: id, userId });
 
         // If label is not found, return a 404 response
         if (!deletedLabel) {
