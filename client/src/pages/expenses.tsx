@@ -199,7 +199,7 @@ const Expenses: React.FC = () => {
         <>
             <Navbar />
             <div className='general tertiary-color'>
-                <div style={{ display: "flex", justifyContent: "end", gap: "2%" }}>
+                <div className="expense-form-container">
                     <input className="tertiary-color" type="date" placeholder="Date" onChange={e => setExpense({ ...expense, date: e.target.value })} />
 
                     <select className="tertiary-color" onChange={e => setExpense({ ...expense, label: e.target.value })}>
@@ -213,64 +213,66 @@ const Expenses: React.FC = () => {
 
                     <button onClick={addAnExpense} className="general-button primary-color">Add</button>
                     <button onClick={() => setIsModalOpen(true)} className="general-button primary-color">Filters</button>
-                </div>cd cl
+                </div>
 
-                <table style={{ marginTop: '2%', width: '100%', textAlign: "center" }}>
-                    <thead>
+                <div className="table-responsive">
+                    <table style={{ textAlign: "center" }}>
+                        <thead>
 
-                        <tr>
-                            <th className="secondary-color">No</th>
-                            <th className="secondary-color">Date</th>
-                            <th className="secondary-color">Label</th>
-                            <th className="secondary-color">Description</th>
-                            <th className="secondary-color">Price</th>
-                            <th className="secondary-color">Actions</th>
-                        </tr>
-
-                    </thead>
-                    <tbody>
-
-                        {expenses.map((expense, index) => (
-                            <tr key={expense._id}>
-                                <td className='primary-text'>{index + 1}</td>
-
-                                <td className='primary-text'>{formatDate(expense.date)}</td>
-
-                                <td className='primary-text'>{expense.label}</td>
-
-                                <td className='primary-text'>{expense.description}</td>
-
-                                <td className='primary-text'>{expense.price}</td>
-
-                                <td className='primary-text' style={{ display: "flex", justifyContent: "center", gap: "2%", padding: "11px 0" }}>
-                                    <MdEdit color={'green'} style={{ cursor: "pointer" }} onClick={() => {
-                                        setExpense({
-                                            id: expense._id,
-                                            date: expense.date,
-                                            label: expense.label,
-                                            description: expense.description,
-                                            price: expense.price
-                                        });
-                                        setIsEditModalOpen(true);
-                                    }} />
-
-                                    <MdDelete color={'red'} style={{ cursor: "pointer" }} onClick={() => {
-                                        openDeleteModal(expense);
-                                        setExpense({
-                                            id: expense._id,
-                                            date: '',
-                                            label: '',
-                                            description: '',
-                                            price: 0,
-                                        });
-                                    }} />
-
-                                </td>
+                            <tr>
+                                <th className="secondary-color">No</th>
+                                <th className="secondary-color">Date</th>
+                                <th className="secondary-color">Label</th>
+                                <th className="secondary-color">Description</th>
+                                <th className="secondary-color">Price</th>
+                                <th className="secondary-color">Actions</th>
                             </tr>
-                        ))}
 
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+
+                            {expenses.map((expense, index) => (
+                                <tr key={expense._id}>
+                                    <td className='primary-text'>{index + 1}</td>
+
+                                    <td className='primary-text'>{formatDate(expense.date)}</td>
+
+                                    <td className='primary-text'>{expense.label}</td>
+
+                                    <td className='primary-text'>{expense.description}</td>
+
+                                    <td className='primary-text'>{expense.price}</td>
+
+                                    <td className='primary-text' style={{ display: "flex", justifyContent: "center", gap: "2%", padding: "11px 0" }}>
+                                        <MdEdit color={'green'} style={{ cursor: "pointer" }} onClick={() => {
+                                            setExpense({
+                                                id: expense._id,
+                                                date: expense.date,
+                                                label: expense.label,
+                                                description: expense.description,
+                                                price: expense.price
+                                            });
+                                            setIsEditModalOpen(true);
+                                        }} />
+
+                                        <MdDelete color={'red'} style={{ cursor: "pointer" }} onClick={() => {
+                                            openDeleteModal(expense);
+                                            setExpense({
+                                                id: expense._id,
+                                                date: '',
+                                                label: '',
+                                                description: '',
+                                                price: 0,
+                                            });
+                                        }} />
+
+                                    </td>
+                                </tr>
+                            ))}
+
+                        </tbody>
+                    </table>
+                </div>
 
                 <p className="primary-text" style={{ marginTop: "10px", textAlign: "end" }}>Total: <strong>{total}</strong></p>
 

@@ -11,6 +11,18 @@
   --horizontal-padding: 15%;
 }
 
+@media (max-width: 1024px) {
+  :root {
+    --horizontal-padding: 8%;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --horizontal-padding: 4%;
+  }
+}
+
 /* -------------- colors ------------------ */
 
 .primary-background {
@@ -52,8 +64,40 @@
 
 .general {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   padding: 1% var(--horizontal-padding);
+}
+
+.expense-form-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.expense-form-container input,
+.expense-form-container select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  flex: 1 1 200px;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .expense-form-container {
+    justify-content: center;
+  }
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 2%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(255,255,255,0.05);
 }
 
 /* ---------------- buttons -------------- */
@@ -65,6 +109,7 @@ button:hover {
   background-color: var(--secondary-color);
   border-radius: 10px;
   padding: 5px 15px;
+  white-space: nowrap;
 }
 
 /* -------------- Table header filter icon --------------- */
@@ -84,12 +129,17 @@ table {
   width: 100%;
   border-collapse: collapse;
   font-family: Arial, sans-serif;
+  min-width: 600px; /* Ensures the table doesn't get too squashed before scrolling kicks in */
 }
 
 th, td {
-  padding: 10px;
-  border: 1px solid #ddd;
+  padding: 12px;
+  border: 1px solid #333;
   text-align: left;
+}
+
+th {
+  background-color: #222;
 }
 
 /* Header cell styling */
