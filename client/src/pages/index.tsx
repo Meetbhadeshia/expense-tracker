@@ -3,8 +3,6 @@ import Navbar from "@/components/Navbar";
 import Pie from "@/components/Graph";
 
 export default function Home() {
-  const chartSeries = [40, 30, 30];
-  const chartSeries1 = [210, 40, 50];
 
   const [data, setData] = useState({ labels: [], values: [] })
 

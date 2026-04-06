@@ -19,9 +19,9 @@ const Expenses: React.FC = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false); // For editing expense modal
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // For delete confirmation modal
 
-    const [selectedExpense, setSelectedExpense] = useState<any>(null); // The expense to be edited or deleted
-    const [labels, setLabels] = useState(["Food", "Rent", "Education", "Essential cost", "Non essential cost"]);
-    const [selectedLabel, setSelectedLabel] = useState<String>('')
+    const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null); // The expense to be edited or deleted
+    const [labels] = useState(["Food", "Rent", "Education", "Essential cost", "Non essential cost"]);
+    const [selectedLabel, setSelectedLabel] = useState<string>('')
 
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [expense, setExpense] = useState({
@@ -50,7 +50,7 @@ const Expenses: React.FC = () => {
         clearVariable()
     };
 
-    const openDeleteModal = (expense: any) => {
+    const openDeleteModal = (expense: Expense) => {
         setSelectedExpense(expense); // Store the selected expense for deletion
         setIsDeleteModalOpen(true);
     };
@@ -179,18 +179,6 @@ const Expenses: React.FC = () => {
         return `${day} ${month} ${year}`; // Return in "dd Mon yyyy" formatcd 
     };
 
-    // ---------- for dropdown of labels ---------------
-    const [isDropdownOpen, setDropdownOpen] = useState(false);
-
-    // Toggle dropdown visibility
-    const handleHeaderClick = () => {
-        setDropdownOpen(!isDropdownOpen);
-    };
-
-    // Handle dropdown item click
-    const handleLabelClick = (label: string) => {
-        setDropdownOpen(false); // Close the dropdown after selection
-    };
     // ---------- for dropdown of labels end ---------------
 
 

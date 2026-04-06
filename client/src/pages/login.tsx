@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { notify } from '@/utils/toaster';
 
 const Login = () => {
@@ -27,7 +27,7 @@ const Login = () => {
             const errorData = await res.json();
             if (errorData.errors) {
                 console.log('Errors:', errorData.errors);
-                errorData.errors.forEach((error: String) => {
+                errorData.errors.forEach((error: string) => {
                     console.error('Error:', error);
                 });
             } else {

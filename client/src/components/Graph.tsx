@@ -1,6 +1,5 @@
 import dynamic from 'next/dynamic';
 import { ApexOptions } from 'apexcharts';
-import { Server } from 'http';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -16,10 +15,10 @@ export default function Pie({ chartSeries, showDataLabels, labels }: PieProps) {
         dataLabels: {
             enabled: true,
             formatter: (val, opts) => {
+                if (!opts) return `${Number(val).toFixed(1)}%`;
                 return showDataLabels
                     ? `${Number(val).toFixed(1)}%` // Show percentage if true
-                    : `${opts.w.config.series[opts.seriesIndex]}`; // Show raw number if false
-
+                    : `${(opts.w as unknown as { config: { series: number[] } }).config.series[opts.seriesIndex]}`; // Show raw number if false
             }
         },
     };

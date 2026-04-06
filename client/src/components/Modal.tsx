@@ -1,5 +1,5 @@
 // components/Modal.js
-import { useState, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 interface ModalProps {
   isOpen: boolean;      // Boolean to control modal visibility

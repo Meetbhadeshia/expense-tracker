@@ -14,7 +14,7 @@ const Signup = () => {
     )
 
     const submitUser = async () => {
-        let newUser: Object = {
+        const newUser: object = {
             name: user.name,
             email: user.email,
             password: user.password
@@ -40,7 +40,7 @@ const Signup = () => {
                 // Parse the error response
                 const errorData = await res.json();
                 if (errorData.errors) {
-                    errorData.errors.forEach((error: String) => {
+                    errorData.errors.forEach((error: string) => {
                         console.error('Error:', error);
                     });
                 } else {
