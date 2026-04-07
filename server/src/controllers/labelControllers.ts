@@ -28,6 +28,7 @@ export const getLabelsAccordingToAUser = async (req: Request, res: Response): Pr
         // Check if labels exist
         if (!labels.length) {
             res.status(404).json({ message: 'No labels found' });
+            return;
         }
 
         res.status(200).json(labels);
@@ -45,6 +46,7 @@ export const editLabel = async (req: Request, res: Response): Promise<void> => {
         // Validate ObjectId format
         if (!id.match(/^[0-9a-fA-F]{24}$/)) {
             res.status(400).json({ message: 'Invalid label ID format' });
+            return;
         }
 
         const userId = (req as any).user?.userId;
@@ -59,6 +61,7 @@ export const editLabel = async (req: Request, res: Response): Promise<void> => {
         // If no label is found, return a 404 response
         if (!updatedLabel) {
             res.status(404).json({ message: 'Label not found' });
+            return;
         }
 
         res.status(200).json({ message: 'Label updated successfully', label: updatedLabel });
@@ -75,6 +78,7 @@ export const deleteLabel = async (req: Request, res: Response): Promise<void> =>
         // Validate ObjectId format
         if (!id.match(/^[0-9a-fA-F]{24}$/)) {
             res.status(400).json({ message: 'Invalid label ID format' });
+            return;
         }
 
         const userId = (req as any).user?.userId;
@@ -85,6 +89,7 @@ export const deleteLabel = async (req: Request, res: Response): Promise<void> =>
         // If label is not found, return a 404 response
         if (!deletedLabel) {
             res.status(404).json({ message: 'Label not found' });
+            return;
         }
 
         res.status(200).json({ message: 'Label deleted successfully', label: deletedLabel });

@@ -14,10 +14,10 @@ const Menu = [
         name: "Add expense",
         link: "/expenses"
     },
-    // {
-    //     name: "Cash",
-    //     link: "/"
-    // }
+    {
+        name: "Labels",
+        link: "/labels"
+    }
 ]
 
 const Navbar = () => {

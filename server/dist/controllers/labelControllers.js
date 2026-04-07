@@ -41,6 +41,7 @@ const getLabelsAccordingToAUser = (req, res) => __awaiter(void 0, void 0, void 0
         // Check if labels exist
         if (!labels.length) {
             res.status(404).json({ message: 'No labels found' });
+            return;
         }
         res.status(200).json(labels);
     }
@@ -58,6 +59,7 @@ const editLabel = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         // Validate ObjectId format
         if (!id.match(/^[0-9a-fA-F]{24}$/)) {
             res.status(400).json({ message: 'Invalid label ID format' });
+            return;
         }
         const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
         // Find and update the label
@@ -67,6 +69,7 @@ const editLabel = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         // If no label is found, return a 404 response
         if (!updatedLabel) {
             res.status(404).json({ message: 'Label not found' });
+            return;
         }
         res.status(200).json({ message: 'Label updated successfully', label: updatedLabel });
     }
@@ -83,6 +86,7 @@ const deleteLabel = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         // Validate ObjectId format
         if (!id.match(/^[0-9a-fA-F]{24}$/)) {
             res.status(400).json({ message: 'Invalid label ID format' });
+            return;
         }
         const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
         // Find and delete the label
@@ -90,6 +94,7 @@ const deleteLabel = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         // If label is not found, return a 404 response
         if (!deletedLabel) {
             res.status(404).json({ message: 'Label not found' });
+            return;
         }
         res.status(200).json({ message: 'Label deleted successfully', label: deletedLabel });
     }

@@ -24,7 +24,7 @@ const Expenses: React.FC = () => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // For delete confirmation modal
 
     const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null); // The expense to be edited or deleted
-    const [labels] = useState(["Food", "Rent", "Education", "Essential cost", "Non essential cost"]);
+    const [labels, setLabels] = useState<string[]>([]);
     const [selectedLabel, setSelectedLabel] = useState<string>('')
 
     const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -62,6 +62,23 @@ const Expenses: React.FC = () => {
     const closeDeleteModal = () => {
         setSelectedExpense(null);
         setIsDeleteModalOpen(false);
+    };
+
+    const getAllLabels = async () => {
+        try {
+            const token = getAuthToken();
+            if (!token) return;
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_ENDPOINT}/api/labels`, {
+                cache: "no-store",
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setLabels(data.map((l: { label: string }) => l.label));
+            }
+        } catch (error) {
+            console.log("Error loading labels", error);
+        }
     };
 
     const getAllExpenses = async () => {
@@ -222,7 +239,8 @@ const Expenses: React.FC = () => {
     }
 
     useEffect(() => {
-        getAllExpenses()
+        getAllLabels();
+        getAllExpenses();
     }, [])
 
     const formatDate = (dateString: string) => {
