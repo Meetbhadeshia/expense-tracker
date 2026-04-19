@@ -11,7 +11,7 @@ const Menu = [
         link: "/profile"
     },
     {
-        name: "Add expense",
+        name: "Expense",
         link: "/expenses"
     },
     {

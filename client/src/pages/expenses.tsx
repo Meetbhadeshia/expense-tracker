@@ -260,16 +260,16 @@ const Expenses: React.FC = () => {
             <Navbar />
             <div className='general tertiary-color'>
                 <div className="expense-form-container">
-                    <input className="tertiary-color" type="date" placeholder="Date" onChange={e => setExpense({ ...expense, date: e.target.value })} />
+                    <input className="tertiary-color" type="date" placeholder="Date" value={expense.date} onChange={e => setExpense({ ...expense, date: e.target.value })} />
 
-                    <select className="tertiary-color" onChange={e => setExpense({ ...expense, label: e.target.value })}>
-                        <option disabled selected>Select Category</option>
+                    <select className="tertiary-color" value={expense.label} onChange={e => setExpense({ ...expense, label: e.target.value })}>
+                        <option value="" disabled>Select Category</option>
                         {labels.map((label, index) => <option key={index} value={label}>{label}</option>)}
                     </select>
 
-                    <input type="text" placeholder="Description" onChange={e => setExpense({ ...expense, description: e.target.value })} />
+                    <input type="text" placeholder="Description" value={expense.description} onChange={e => setExpense({ ...expense, description: e.target.value })} />
 
-                    <input type="number" placeholder="Price" onChange={e => setExpense({ ...expense, price: Number(e.target.value) })} />
+                    <input type="number" placeholder="Price" value={expense.price === 0 ? '' : expense.price} onChange={e => setExpense({ ...expense, price: Number(e.target.value) })} />
 
                     <button onClick={addAnExpense} className="general-button primary-color">Add</button>
                     <button onClick={() => setIsModalOpen(true)} className="general-button primary-color">Filters</button>
@@ -303,8 +303,8 @@ const Expenses: React.FC = () => {
 
                                     <td className='primary-text'>{expense.price}</td>
 
-                                    <td className='primary-text' style={{ display: "flex", justifyContent: "center", gap: "2%", padding: "11px 0" }}>
-                                        <MdEdit color={'green'} style={{ cursor: "pointer" }} onClick={() => {
+                                    <td className='primary-text' style={{ whiteSpace: "nowrap", textAlign: "center" }}>
+                                        <MdEdit color={'green'} style={{ cursor: "pointer", marginRight: "15px", fontSize: "1.2rem" }} onClick={() => {
                                             setExpense({
                                                 id: expense._id,
                                                 date: expense.date,
@@ -315,7 +315,7 @@ const Expenses: React.FC = () => {
                                             setIsEditModalOpen(true);
                                         }} />
 
-                                        <MdDelete color={'red'} style={{ cursor: "pointer" }} onClick={() => {
+                                        <MdDelete color={'red'} style={{ cursor: "pointer", fontSize: "1.2rem" }} onClick={() => {
                                             openDeleteModal(expense);
                                             setExpense({
                                                 id: expense._id,
@@ -325,7 +325,6 @@ const Expenses: React.FC = () => {
                                                 price: 0,
                                             });
                                         }} />
-
                                     </td>
                                 </tr>
                             ))}
@@ -334,7 +333,7 @@ const Expenses: React.FC = () => {
                     </table>
                 </div>
 
-                <p className="primary-text" style={{ marginTop: "10px", textAlign: "end" }}>Total: <strong>{total}</strong></p>
+                <p className="primary-text" style={{ marginTop: "10px", textAlign: "end" }}>Total: <strong>{total.toFixed(2)}</strong></p>
 
                 {/* Filter Modal */}
                 <Modal isOpen={isModalOpen} onClose={closeModal}>
