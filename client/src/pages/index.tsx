@@ -48,19 +48,9 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center", // Center items vertically
-          gap: "20px", // Add space between the pie charts
-          height: "100vh",
-        }}
-        className="tertiary-color"
-      >
-        <Pie chartSeries={data.values} showDataLabels={true} labels={data.labels} /> {/* Show percentages */}
-        <Pie chartSeries={data.values} showDataLabels={false} labels={data.labels} /> {/*  Show raw numbers */}
+      <div className="tertiary-color home-charts-container">
+        <Pie chartSeries={data.values} showDataLabels={true} labels={data.labels} />
+        <Pie chartSeries={data.values} showDataLabels={false} labels={data.labels} />
       </div>
     </>
   );

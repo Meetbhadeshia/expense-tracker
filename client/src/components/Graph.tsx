@@ -12,6 +12,18 @@ interface PieProps {
 export default function Pie({ chartSeries, showDataLabels, labels }: PieProps) {
     const chartOptions: ApexOptions = {
         labels,
+        responsive: [{
+            breakpoint: 768,
+            options: {
+                chart: {
+                    width: 320,
+                    height: 320
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }],
         dataLabels: {
             enabled: true,
             formatter: (val, opts) => {
@@ -28,9 +40,8 @@ export default function Pie({ chartSeries, showDataLabels, labels }: PieProps) {
             options={chartOptions}
             series={chartSeries}
             type="pie"
-            height={500}
             width={500}
-            style={{ height: '20vh' }}
+            height={500}
         />
     );
 }

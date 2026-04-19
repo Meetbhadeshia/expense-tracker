@@ -228,3 +228,21 @@ a {
     padding: 10px;
   }
 }
+
+/* Home Page Charts Container */
+.home-charts-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center; /* Center items vertically */
+  gap: 20px; /* Add space between the pie charts */
+  height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .home-charts-container {
+    flex-direction: column;
+    height: auto;
+    padding: 40px 0;
+  }
+}
