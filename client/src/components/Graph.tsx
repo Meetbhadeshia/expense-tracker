@@ -12,6 +12,14 @@ interface PieProps {
 export default function Pie({ chartSeries, showDataLabels, labels }: PieProps) {
     const chartOptions: ApexOptions = {
         labels,
+        chart: {
+            foreColor: '#ffffff', // All text outside slices (legend values, axis) white
+        },
+        legend: {
+            labels: {
+                colors: '#ffffff', // Legend text white
+            }
+        },
         responsive: [{
             breakpoint: 768,
             options: {
@@ -27,10 +35,10 @@ export default function Pie({ chartSeries, showDataLabels, labels }: PieProps) {
         dataLabels: {
             enabled: true,
             formatter: (val, opts) => {
-                if (!opts) return `${Number(val).toFixed(1)}%`;
+                if (!opts) return `${Number(val).toFixed(2)}%`;
                 return showDataLabels
-                    ? `${Number(val).toFixed(1)}%` // Show percentage if true
-                    : `${(opts.w as unknown as { config: { series: number[] } }).config.series[opts.seriesIndex]}`; // Show raw number if false
+                    ? `${Number(val).toFixed(2)}%` // Show percentage with 2 decimals
+                    : `${Number((opts.w as unknown as { config: { series: number[] } }).config.series[opts.seriesIndex]).toFixed(2)}`; // Show raw number with 2 decimals
             }
         },
     };
