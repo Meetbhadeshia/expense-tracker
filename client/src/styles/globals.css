@@ -193,3 +193,38 @@ a {
     color-scheme: light;
   }
 }
+
+/* Responsive Navbar styling */
+.mobile-menu-icon {
+  display: none;
+  cursor: pointer;
+  font-size: 2rem;
+  color: var(--primary-text);
+  margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none !important;
+  }
+  .mobile-menu-icon {
+    display: block;
+  }
+  .mobile-menu-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px var(--horizontal-padding);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    z-index: 50;
+  }
+  .mobile-menu-button {
+    margin: 5px 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+  }
+}
